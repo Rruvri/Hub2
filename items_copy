@@ -1,0 +1,74 @@
+from sysfunc import clear_console
+
+items = []
+
+def create_item(name, col, subcol):
+	new_item = Item(name, col, subcol)
+	
+class Item:
+	def __init__(self, name, col, subcol):
+		self.name = name
+		self.col = col
+		self.subcol = subcol
+		
+		self.item_dict = {"Name": self.name,
+		"Collection": self.col,
+		"Subcollection": self.subcol,
+		"Measure Type": "N/A"}
+		
+		self.stock = 0
+		
+		self.item_variants = [] #List of dicts
+		self.item_history = []
+		self.active_item = {}
+		
+		
+	def view_dict(self, dictionary): #check what you can do with the dict built in 
+		clear_console()
+		
+		index_num = 1
+		
+		for key, value in dictionary.items():
+			print(f'[{index_num}] {key}: {value}')
+			index_num +=1	
+			
+		edit_choice = input('Enter entry number to edit, add a new entry with "[key name] [value]", [return] to exit: ')
+		
+		if edit_choice == '':
+			clear_console()
+			return
+			
+		elif ' ' in edit_choice:
+			add_entry = edit_choice.split(' ')
+			dictionary[add_entry[0]] = add_entry[1]
+			return #this works fine but needs a sort + update method
+			
+		key_list = list(dictionary)
+		selected_key = dictionary[key_list[int(edit_choice)-1]]
+		
+		
+		if isinstance(selected_key, dict):
+			return self.view_dict(selected_key) #need to add option for adding entries (i.e. missed a day)
+			
+			
+		#could use a lambda here
+		new_value = input('Enter new value: ')
+		if isinstance(selected_key, int):
+			new_value = int(new_value)
+		elif isinstance(selected_key, float):
+			new_value = float(new_value)
+		elif isinstance(selected_key, tuple):
+			new_value = tuple(new_value)
+			
+			
+		dictionary[key_list[int(edit_choice)-1]] = new_value
+		
+		
+		
+		
+class Volume(Item):
+	pass
+	
+class Count(Item):
+	pass
+
