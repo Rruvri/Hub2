@@ -1,5 +1,5 @@
 from datetimetracking import *
-from save_and_sysfunc import *
+from saves import *
 from groups import create_collection
 from goals import create_goals_collection
 from goals import create_goals_test
@@ -27,9 +27,7 @@ def main():
 
         
         
-        for g in master_goals.active_goals:
-            if master_goals.active_goals[g]:
-                master_goals.active_goals[g].view()
+        master_goals.view_goals()
         
         for g in master_goals.goals_archive:
             if master_goals.goals_archive[g]:

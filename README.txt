@@ -9,6 +9,7 @@ The previous version had item management for stuff at home, memos and goals, rem
 == Completed:
 -> Time-based tracking, day periods for routines etc.
 -> Save system with Pickle
+-> Basic Daily goals tracking
 
 == Now working on:
 -> Daily goals tracking
@@ -21,4 +22,4 @@ The previous version had item management for stuff at home, memos and goals, rem
 
 
 == ROADMAPish... ==
-
+! Move over or redo item, memo collections

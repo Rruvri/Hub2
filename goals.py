@@ -29,9 +29,9 @@ class Goals:
 
     def view(self):
         if hasattr(self, 'archived'):
-            print(f"-> Archive of {date_format(self.due_date)}")
+            print(f"\n-> Archive of {date_format(self.due_date)}")
         else:
-            print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
+            print(f'\n== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
         
         for k in self.goals_dict:
             if self.goals_dict[k] == 'Completed!':
@@ -87,7 +87,8 @@ class Goals:
         self.goals_dict[goal] = edit
         return         
     
-    
+    def time_based_prompts(self):
+        pass
 
 class Daily(Goals):
     def __init__ (self, goals_dict):

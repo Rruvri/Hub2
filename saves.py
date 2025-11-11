@@ -21,7 +21,11 @@ class MasterGoals:
         
     def view_goals(self, specific=None):
         if specific and self.active_goals[specific]:
-            return f'=={specific}==\nDue: {self.active_goals[specific].due_date}'
+            return self.active_goals[specific].interact()
+        for goal in self.active_goals.keys():
+            if self.active_goals[goal]:
+                self.active_goals[goal].view()
+        
         
   
 class MasterItems:
