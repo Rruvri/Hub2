@@ -2,7 +2,7 @@ import pickle
 from datetimetracking import current_datetime
 import os
 import sys
-import time
+from sysfuncs import *
 
 
 #Master Classes
@@ -24,16 +24,6 @@ class MasterGoals:
             return f'=={specific}==\nDue: {self.active_goals[specific].due_date}'
         
   
-            
-                  
-
-        
-
-
-
-
-
-
 class MasterItems:
     def __init__(self):
         self.collections = []
@@ -82,8 +72,6 @@ def store_data():
 def save_exit():
     store_data()
     print('Saved! Now exiting...')
-    time.sleep(1)
+    sleep(1)
     sys.exit()
 
-def clear_console():
-    os.system('clear')

@@ -1,4 +1,5 @@
 from datetimetracking import *
+from sysfuncs import *
 
 
 time_space_dict = {"d": "Daily", 
@@ -27,38 +28,64 @@ class Goals:
         self.period = "Misc."
 
     def view(self):
-        print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
+        if hasattr(self, 'archived'):
+            print(f"-> Archive of {date_format(self.due_date)}")
+        else:
+            print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
         
         for k in self.goals_dict:
+            if self.goals_dict[k] == 'Completed!':
+                continue
             if not self.goals_dict[k]:
+                if k == 'Completed':
+                    continue
                 print(f"{k}: Not yet set!")
                 continue
             print(f'{k}: {self.goals_dict[k]}')
     
     def interact(self):
-        self.view()
         
-        choice_no = 0
-        choice_dict = {}
-        options_dict = {"c": self.complete_goal,
-                        "e": self.edit_goal}
-        
-        for key in self.goals_dict.keys():
-            choice_no += 1
-            choice_dict[choice_no] = key
-        
-        goal_choice = input("Enter number to access")
-        option_choice = input("[C]omplete goal, or [E]dit goal?")
-
-        options_dict[option_choice](goal_choice)
-
+        menu_check = True
+        while menu_check:
+            self.view()
+            
+            choice_no = 0
+            choice_dict = {}
+            options_dict = {"c": self.complete_goal,
+                            "e": self.edit_goal}
+            
+            for key in self.goals_dict.keys():
+                choice_no += 1
+                choice_dict[str(choice_no)] = key 
+            
+            goal_choice = input("Enter number to access, or [return] to exit: ")
+            if goal_choice == "":
+                menu_check = False
+                clear_console()
+                return
+            goal_choice = choice_dict[goal_choice]
+            option_choice = input("[C]omplete goal, or [E]dit goal?: ")
+            
+            options_dict[option_choice](goal_choice)
+            clear_console()
 
         
     def complete_goal(self, goal):
-        pass
+        if not "Completed" in self.goals_dict:
+            self.goals_dict["Completed"] = {}
+        completed = {goal: self.goals_dict[goal]}
+        self.goals_dict[goal] = "Completed!"
+        self.goals_dict["Completed"].update(completed)
+        print("Well Done! :-)")
+        sleep(1)
+        return
+    
     def edit_goal(self, goal):
-        pass
-        
+        edit = input("Enter updated goal, or [return] to clear: ")
+        if edit == "":
+            edit = None
+        self.goals_dict[goal] = edit
+        return         
     
     
 
@@ -120,8 +147,10 @@ def create_goals_collection(master_goals):
     
 
     if master_goals.active_goals[time_period]:
+        master_goals.active_goals[time_period].archived = True
         master_goals.goals_archive[time_period].append(master_goals.active_goals[time_period])
-        print(master_goals.goals_archive[time_period])
+        clear_console()
+
         
     if time_period == 'Daily':
         master_goals.active_goals["Daily"] = Daily(goals_dict=set_goals)

@@ -12,8 +12,10 @@ The previous version had item management for stuff at home, memos and goals, rem
 
 == Now working on:
 -> Daily goals tracking
-    -> 
+    -> Complete/ edit goals
+        -> If completed, move up next goals
     ! Move dict interactions to a general function for DRY reuse
+    ! Decorator for while true menu holding
 
 
 
