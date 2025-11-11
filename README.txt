@@ -5,11 +5,12 @@ The previous version had item management for stuff at home, memos and goals, rem
 == CURRENT FEATURESish... ==
 
 == Completed:
-    -> Time-based tracking, day periods for routines etc.
+-> Time-based tracking, day periods for routines etc.
+-> Save system with Pickle
 
 == Now working on:
-    -> Daily goals tracking
-        -> 
+-> Daily goals tracking
+    -> 
 
 
 
