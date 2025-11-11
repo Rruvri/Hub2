@@ -40,21 +40,23 @@ class Goals:
         
         choice_no = 0
         choice_dict = {}
-        options_dict = {"c": self.complete_goal(),
-                        "d": self.delete_goal()}
+        options_dict = {"c": self.complete_goal,
+                        "e": self.edit_goal}
         
         for key in self.goals_dict.keys():
             choice_no += 1
             choice_dict[choice_no] = key
         
-        user_choice = input("Enter number to access")
-        option_choice = input("[C]omplete goal, or [D]elete goal?")
+        goal_choice = input("Enter number to access")
+        option_choice = input("[C]omplete goal, or [E]dit goal?")
+
+        options_dict[option_choice](goal_choice)
 
 
         
     def complete_goal(self, goal):
         pass
-    def delete_goal(self, goal):
+    def edit_goal(self, goal):
         pass
         
     
