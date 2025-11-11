@@ -27,7 +27,7 @@ class Goals:
         self.period = "Misc."
 
     def view(self):
-        print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}')
+        print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
         
         for k in self.goals_dict:
             if not self.goals_dict[k]:
@@ -37,7 +37,25 @@ class Goals:
     
     def interact(self):
         self.view()
-        complete = input("Enter [number] to complete") 
+        
+        choice_no = 0
+        choice_dict = {}
+        options_dict = {"c": self.complete_goal(),
+                        "d": self.delete_goal()}
+        
+        for key in self.goals_dict.keys():
+            choice_no += 1
+            choice_dict[choice_no] = key
+        
+        user_choice = input("Enter number to access")
+        option_choice = input("[C]omplete goal, or [D]elete goal?")
+
+
+        
+    def complete_goal(self, goal):
+        pass
+    def delete_goal(self, goal):
+        pass
         
     
     
