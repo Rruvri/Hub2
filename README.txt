@@ -1,6 +1,8 @@
 Hello! 
 This is the second version of RaviHUB, a life managing central space that I am building alongside my Python learning!
 The previous version had item management for stuff at home, memos and goals, reminders to buy e.g. groceries
+! is To-Do, -> completed or in progress
+
 
 == CURRENT FEATURESish... ==
 
@@ -11,6 +13,7 @@ The previous version had item management for stuff at home, memos and goals, rem
 == Now working on:
 -> Daily goals tracking
     -> 
+    ! Move dict interactions to a general function for DRY reuse
 
 
 
