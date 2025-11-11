@@ -1,0 +1,122 @@
+from datetimetracking import *
+
+
+time_space_dict = {"d": "Daily", 
+                   "w": "Weekly",
+                   "m": "Monthly",
+                   "y": "Yearly"}
+
+
+def create_goals_test(master_goals):
+    test = Daily(goals_dict={"Main task": "Test",
+                             "Secondary Task": "Test2",
+                             "Extra Task 1": "Test3", 
+                             "Extra Task 2": "Test4"})
+         
+    master_goals.active_goals["Daily"] = test
+    
+
+
+
+class Goals:
+    def __init__(self,  goals_dict, start_dt=current_datetime):
+
+        self.due_date = None
+        self.goals_dict = goals_dict
+        self.start_dt = start_dt
+        self.period = "Misc."
+
+    def view(self):
+        print(f'== {self.period} ==\nDue: {date_and_time_format(self.due_date)}')
+        
+        for k in self.goals_dict:
+            if not self.goals_dict[k]:
+                print(f"{k}: Not yet set!")
+                continue
+            print(f'{k}: {self.goals_dict[k]}')
+    
+    def interact(self):
+        self.view()
+        complete = input("Enter [number] to complete") 
+        
+    
+    
+
+class Daily(Goals):
+    def __init__ (self, goals_dict):
+        super().__init__(goals_dict)
+        
+        self.period = "Daily"
+        self.start_dt = current_datetime
+
+        evening_due = current_datetime.replace(hour=20, minute=30)
+        if time_check(current_datetime) != ("eve1" or "eve2"):
+            self.due_date = evening_due
+        else:
+            self.due_date = timedelta(evening_due(days=1))
+    
+
+        
+        
+
+    
+        
+
+class Weekly(Goals):
+    def __init__ (self, goals_dict):
+        super().__init__(goals_dict)
+
+class Monthly(Goals):
+    def __init__ (self, goals_dict):
+        super().__init__(goals_dict)
+
+class Yearly(Goals):
+    def __init__ (self, goals_dict):
+        super().__init__(goals_dict)
+
+
+
+
+def create_goals_collection(master_goals):
+
+    time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+
+    main_goal = input('Enter primary task: ')
+    sec_goal = input('Enter secondary task, to be completed alongside main: ')
+    extra_goals_check = True
+    eg_index = 1
+    eg_dict = {}
+    while extra_goals_check:
+        extra_goal = input('Enter any additional tasks, or just [return] to finish: ')
+        if not extra_goal == "":
+            eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
+        extra_goals_check = False
+        
+    
+    set_goals = {'Main task': main_goal,
+                 'Secondary Task': sec_goal}
+    if eg_dict:
+        set_goals.update(eg_dict)
+    
+
+    if master_goals.active_goals[time_period]:
+        master_goals.goals_archive[time_period].append(master_goals.active_goals[time_period])
+        print(master_goals.goals_archive[time_period])
+        
+    if time_period == 'Daily':
+        master_goals.active_goals["Daily"] = Daily(goals_dict=set_goals)
+    elif time_period == 'Weekly':
+        master_goals.active_goals['Weekly'] = Weekly(goals_dict=set_goals)
+    elif time_period == 'Monthly':
+        master_goals.active_goals['Monthly'] = Monthly(goals_dict=set_goals)
+    elif time_period == 'Yearly':
+        master_goals.active_goals['Yearly'] = Yearly(goals_dict=set_goals)
+
+
+
+
+
+
+		
+
+

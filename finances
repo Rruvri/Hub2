@@ -1,0 +1,5 @@
+
+
+class Outgoings:
+    def __init__(self, og_list=[]):
+	    self.og_list = og_list

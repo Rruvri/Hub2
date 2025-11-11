@@ -1,0 +1,17 @@
+from datetimetracking import *
+
+class Memos:
+    def __init__(self, name, memos_list=[]):
+         self.name = name
+         self.memos_list = memos_list
+    
+def create_memos_collection(memos):
+    name = input("Enter title for memo list: ")
+    memos.append(Memos(name))
+
+class Memo:
+    def __init__(self):
+        pass
+
+    def create_memo(self, name, content):
+        pass
