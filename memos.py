@@ -1,5 +1,9 @@
 from datetimetracking import *
 
+class MasterMemos:
+    def __init__(self):
+        self.collections = []
+
 class Memos:
     def __init__(self, name, memos_list=[]):
          self.name = name

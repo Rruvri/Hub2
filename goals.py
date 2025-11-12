@@ -2,6 +2,34 @@ from datetimetracking import *
 from sysfuncs import *
 
 
+class MasterGoals:
+    def __init__(self):
+        self.active_goals = {"Daily": None,
+                             "Weekly": None,
+                             "Monthly": None,
+                             "Yearly": None}
+        
+
+        self.goals_archive = {"Daily": [],
+                              "Weekly": [],
+                              "Monthly": [],
+                              "Yearly": []}
+        
+    def view_goals(self, specific=None, archive=False, **kwargs):
+        target = self.active_goals
+        if archive:
+            target = self.goals_archive
+        if specific:
+            specific = time_space_dict[specific]
+        if specific and target[specific]:
+            return target[specific].interact()
+        for goal in target.keys():
+            if target[goal]:
+                target[goal].view()
+        
+    def view_goalsii(self):
+        specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
+
 time_space_dict = {"d": "Daily", 
                    "w": "Weekly",
                    "m": "Monthly",
@@ -101,7 +129,7 @@ class Daily(Goals):
         if time_check(current_datetime) != ("eve1" or "eve2"):
             self.due_date = evening_due
         else:
-            self.due_date = timedelta(evening_due(days=1))
+            self.due_date = evening_due + timedelta(days=1)
     
 
         

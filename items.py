@@ -1,4 +1,8 @@
 
+class MasterItems:
+    def __init__(self):
+        self.collections = []
+
 
 def create_item(name, col, subcol):
     new_item = Item(name, col, subcol)

@@ -1,12 +1,9 @@
 from datetimetracking import *
 from saves import *
+from sysfuncs import *
 from groups import create_collection
-from goals import create_goals_collection
-from goals import create_goals_test
-
-
-
-
+from goals import create_goals_collection, create_goals_test
+from gui import *
 
 
 
@@ -14,6 +11,7 @@ from goals import create_goals_test
 def main():
     while True:
         clear_console()
+        
         print('Welcome to RaviHub!')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
@@ -29,15 +27,6 @@ def main():
         
         master_goals.view_goals()
         
-        for g in master_goals.goals_archive:
-            if master_goals.goals_archive[g]:
-                for arch in master_goals.goals_archive[g]:
-                    arch.view()
-        
-
-            
-        
-
         
 
         print("\n==== MENU ====\n[C]reate collection\nCreate [G]oal\n[I]nteract goals")
@@ -46,11 +35,17 @@ def main():
 
 
 
+        
+
 
         if menu_choice == 'e':
             save_exit()
         elif menu_choice == 'ee':
-            sys.exit()            
+            sys.exit()
+
+        elif menu_choice == 'l':
+            pass
+            #functionality to load up with blank, for testing
 
 
         elif menu_choice == 'c':
@@ -58,6 +53,20 @@ def main():
             
         elif menu_choice == 'g':
             create_goals_collection(master_goals)
+
+            
+        elif menu_choice == 'vg':
+            specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
+            view_archive = input("View archive [y/n]?: ")
+            kwargs = {}
+            if specified != '':
+                kwargs['specific'] = specified
+            if view_archive == 'y'.lower():
+                kwargs['archive'] = True
+            return master_goals.view_goals(**kwargs)
+                
+            
+
         elif menu_choice == 'gac':
             master_goals.goals_archive["Daily"] = []
 

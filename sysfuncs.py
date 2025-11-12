@@ -6,3 +6,8 @@ def clear_console():
 
 def sleep(int):
     return time.sleep(int)
+
+time_space_dict = {"d": "Daily", 
+                   "w": "Weekly",
+                   "m": "Monthly",
+                   "y": "Yearly"}
