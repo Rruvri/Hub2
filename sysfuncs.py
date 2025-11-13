@@ -1,13 +1,20 @@
 import time
 import os
 
+
 def clear_console():
     os.system('clear')
 
 def sleep(int):
     return time.sleep(int)
 
-time_space_dict = {"d": "Daily", 
-                   "w": "Weekly",
-                   "m": "Monthly",
-                   "y": "Yearly"}
+def menu_hold(func):
+    def wrapper(*args, **kwargs):
+        check = True
+        while check:
+            func(*args, **kwargs)
+            exit = input("eee to exit")
+            if exit == 'eee':
+                check = False
+             
+    return wrapper

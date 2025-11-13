@@ -23,6 +23,9 @@ current_weekday = weekday_format(current_datetime)
 current_complete = f'{current_weekday}, {current_date} | {current_time}'
 
 
+def datestr_to_dt(date_string):
+	return datetime.strptime('%d/%m/%y', date_string)
+
 
 #datetime checks______________________________________________________________________
 def get_date_change(date, shift_days=0, shift_hours=0, shift_minutes=0):

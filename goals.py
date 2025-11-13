@@ -2,6 +2,11 @@ from datetimetracking import *
 from sysfuncs import *
 
 
+time_space_dict = {"d": "Daily", 
+                   "w": "Weekly",
+                   "m": "Monthly",
+                   "y": "Yearly"}
+
 class MasterGoals:
     def __init__(self):
         self.active_goals = {"Daily": None,
@@ -15,25 +20,26 @@ class MasterGoals:
                               "Monthly": [],
                               "Yearly": []}
         
-    def view_goals(self, specific=None, archive=False, **kwargs):
+    
+    def view_goals(self, archive=False):
+        specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
         target = self.active_goals
         if archive:
             target = self.goals_archive
-        if specific:
-            specific = time_space_dict[specific]
-        if specific and target[specific]:
-            return target[specific].interact()
-        for goal in target.keys():
+        if specified != "":
+            if target[time_space_dict[specified]]:
+                target[time_space_dict[specified]].interact()
+            else:
+                print(f"{time_space_dict[specified]} currently empty!")
+                
+        
+        for goal in target:
             if target[goal]:
                 target[goal].view()
-        
-    def view_goalsii(self):
-        specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
+                
+            
 
-time_space_dict = {"d": "Daily", 
-                   "w": "Weekly",
-                   "m": "Monthly",
-                   "y": "Yearly"}
+        
 
 
 def create_goals_test(master_goals):
@@ -55,6 +61,7 @@ class Goals:
         self.start_dt = start_dt
         self.period = "Misc."
 
+    
     def view(self):
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
@@ -70,7 +77,7 @@ class Goals:
                 print(f"{k}: Not yet set!")
                 continue
             print(f'{k}: {self.goals_dict[k]}')
-    
+            
     def interact(self):
         
         menu_check = True
@@ -125,7 +132,8 @@ class Daily(Goals):
         self.period = "Daily"
         self.start_dt = current_datetime
 
-        evening_due = current_datetime.replace(hour=20, minute=30)
+        evening_due = current_datetime.replace(hour=18, minute=0)
+
         if time_check(current_datetime) != ("eve1" or "eve2"):
             self.due_date = evening_due
         else:

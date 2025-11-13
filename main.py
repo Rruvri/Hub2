@@ -2,8 +2,11 @@ from datetimetracking import *
 from saves import *
 from sysfuncs import *
 from groups import create_collection
-from goals import create_goals_collection, create_goals_test
+
+
 from gui import *
+
+
 
 
 
@@ -15,6 +18,7 @@ def main():
         print('Welcome to RaviHub!')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
+        #get_memo_from_readme()
 
         
         if previous_login:
@@ -22,10 +26,10 @@ def main():
                 pass
         
         
-
+                
         
         
-        master_goals.view_goals()
+        master_goals.active_goals["Daily"].view()
         
         
 
@@ -50,30 +54,28 @@ def main():
 
         elif menu_choice == 'c':
             create_collection(master_item_collections)
+        
+        elif menu_choice == 'm':
+            create_memos_collection(master_memos)
             
         elif menu_choice == 'g':
             create_goals_collection(master_goals)
-
-            
-        elif menu_choice == 'vg':
-            specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
-            view_archive = input("View archive [y/n]?: ")
-            kwargs = {}
-            if specified != '':
-                kwargs['specific'] = specified
-            if view_archive == 'y'.lower():
-                kwargs['archive'] = True
-            return master_goals.view_goals(**kwargs)
-                
-            
-
-        elif menu_choice == 'gac':
-            master_goals.goals_archive["Daily"] = []
-
         elif menu_choice == 'gg':
             create_goals_test(master_goals)
+
+            
+        elif menu_choice == 'gv':
+           return master_goals.view_goals()
+        elif menu_choice == 'gva':
+            return master_goals.view_goals(archive=True)
+                
+            
+        elif menu_choice == 'gca':
+            master_goals.goals_archive["Daily"] = []
+
         
-        elif menu_choice == 'i':
+        
+        elif menu_choice == 'gi':
             clear_console()
             master_goals.active_goals["Daily"].interact()
         
