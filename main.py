@@ -13,7 +13,7 @@ from gui import *
 
 def main():
     while True:
-        clear_console()
+        
         
         print('Welcome to RaviHub!')
         print(current_complete)
@@ -30,11 +30,22 @@ def main():
             master_goals.active_goals["Daily"].view()
         
         
+        print('\n== Memos ==')
+        if master_memos.collections:
+            if len(master_memos.collections.keys()) == 1:
+                targetlist = list(master_memos.collections.keys())
+                target = targetlist[0]
+                
+                master_memos.view_collections(target)
+        
+        
         
         
         
 
-        print("\n==== MENU ====\n[C]reate collection\nCreate [G]oal\n[I]nteract goals")
+        print("\n==== MENU ====\n[C]reate collection\n") #add rest
+        print("\n[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
+        print("\n[M]emos (create), or +...\n-> [V]iew") #add rest
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
 
@@ -65,6 +76,8 @@ def main():
         
         elif menu_choice == 'mv':
             master_memos.view_collections()
+        elif menu_choice == 'mr':
+            master_memos.reset()
         
 
             

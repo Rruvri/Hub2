@@ -7,18 +7,24 @@ class MasterMemos:
 
     def create_memos_collection(self):
         name = input("Enter title for memo list: ")
-        self.collections[name] = (MemosCol(name))
+        self.collections[name] = MemosCol(name)
     
-    def view_collections(self):
-        specified = input('Enter memos collection name, or [return] to view all')
-        if specified == '':
+    def view_collections(self, specified=None):
+        if specified == None:
+            specified = input('Enter memos collection name, or [return] to view all')
+        if specified != '':
             return self.collections[specified].view_memos_col()
+        
         if self.collections:
-            for col in self.collections:
-                print(f'== col.name ==')
-                col.view_memos_col()
+            for col in self.collections.keys():
+                print(f'== {self.collections[col].name} ==')
+                self.collections[col].view_memos_col()
+                #add hold fn
         else:
             return
+    
+    def reset(self):
+        self = self.__init__()
 
 
 class MemosCol:
@@ -38,20 +44,23 @@ class MemosCol:
         self.memos_list.append(Memo(content, notes, due_date))
 
     def view_memos_col(self):
+        print(f'[{self.name}]')
         if self.memos_list:
             for memo in self.memos_list:
-                print(f'|{memo.content}|')
+                print(f' -> {memo.content}')
                 if memo.due_date:
-                    print(memo.due_date)
+                    print(f'  {memo.due_date}')
                 if memo.notes:
-                    print(f'\n{memo.notes}')
+                    print(f'\n   {memo.notes}')
         else:
-            print('Empty!')
+            print(' -> Empty!')
     
     def interact(self):
+        self.view_memos_col()
         menu_check = True
         while menu_check:
             self.view_memos_col()
+            print("\nOptions:")
             menu = input('[c]reate a memo, or [return] to exit')
             if menu == '':
                 menu_check = False
@@ -59,7 +68,7 @@ class MemosCol:
             elif menu == 'c':
                 self.create_memo()
                 clear_console()
-                
+    
 
 
     
