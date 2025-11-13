@@ -26,6 +26,9 @@ if 'save_data.pkl' in wd_files:
         prev_save_copy = data
 
 
+def reset_master():
+     pass
+
 def store_data():
     with open('save_data.pkl', 'wb') as f:
             save_dict = {'item collections': master_item_collections,

@@ -2,7 +2,7 @@ from datetimetracking import *
 from saves import *
 from sysfuncs import *
 from groups import create_collection
-
+#from goals import create_goals_collection, create_goals_test
 
 from gui import *
 
@@ -26,10 +26,11 @@ def main():
                 pass
         
         
-                
+        if master_goals.active_goals["Daily"]:
+            master_goals.active_goals["Daily"].view()
         
         
-        master_goals.active_goals["Daily"].view()
+        
         
         
 
@@ -53,15 +54,26 @@ def main():
 
 
         elif menu_choice == 'c':
-            create_collection(master_item_collections)
+            create_collection(master_item_collections) #update this
         
         elif menu_choice == 'm':
-            create_memos_collection(master_memos)
+            master_memos.create_memos_collection()
+        elif menu_choice == 'mm':
+            pass #memos test here
+        elif menu_choice == 'mmm':
+            pass #reset option
+        
+        elif menu_choice == 'mv':
+            master_memos.view_collections()
+        
+
             
         elif menu_choice == 'g':
-            create_goals_collection(master_goals)
+            master_goals.create_goals_collection()
         elif menu_choice == 'gg':
-            create_goals_test(master_goals)
+            master_goals.create_goals_test()
+        elif menu_choice == 'ggg':
+            pass #reset option
 
             
         elif menu_choice == 'gv':

@@ -12,6 +12,9 @@ The previous version had item management for stuff at home, memos and goals, rem
 + Basic Daily goals tracking
 
 == Now working on:
++ Fix saves bug
+    + Fixed, error was due to a trial 'reset class' function and global variable scoping
+        -> finish new reset option
 -> Daily goals tracking
     -> Complete/ edit goals
         -> If completed, move up next goals

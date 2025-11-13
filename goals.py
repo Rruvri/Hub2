@@ -38,17 +38,52 @@ class MasterGoals:
                 target[goal].view()
                 
             
+    def create_goals_test(self):
+        test = Daily(goals_dict={"Main task": "Test",
+                                "Secondary Task": "Test2",
+                                "Extra Task 1": "Test3", 
+                                "Extra Task 2": "Test4"})
+        self.active_goals["Daily"] = test
 
+    def create_goals_collection(self):
+
+        time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+
+        main_goal = input('Enter primary task: ')
+        sec_goal = input('Enter secondary task, to be completed alongside main: ')
+        extra_goals_check = True
+        eg_index = 1
+        eg_dict = {}
+        while extra_goals_check:
+            extra_goal = input('Enter any additional tasks, or just [return] to finish: ')
+            if extra_goal == "":
+                extra_goals_check = False
+            else:
+                eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
+                eg_index += 1
+            
+            
+        
+        set_goals = {'Main task': main_goal,
+                    'Secondary Task': sec_goal}
+        if eg_dict:
+            set_goals.update(eg_dict)
         
 
-
-def create_goals_test(master_goals):
-    test = Daily(goals_dict={"Main task": "Test",
-                             "Secondary Task": "Test2",
-                             "Extra Task 1": "Test3", 
-                             "Extra Task 2": "Test4"})
-         
-    master_goals.active_goals["Daily"] = test
+        if self.active_goals[time_period]:
+            self.active_goals[time_period].archived = True
+            self.goals_archive[time_period].append(self.active_goals[time_period])
+            clear_console()
+        
+            
+        if time_period == 'Daily':
+            self.active_goals["Daily"] = Daily(goals_dict=set_goals)
+        elif time_period == 'Weekly':
+            self.active_goals['Weekly'] = Weekly(goals_dict=set_goals)
+        elif time_period == 'Monthly':
+            self.active_goals['Monthly'] = Monthly(goals_dict=set_goals)
+        elif time_period == 'Yearly':
+            self.active_goals['Yearly'] = Yearly(goals_dict=set_goals) 
     
 
 
@@ -140,12 +175,6 @@ class Daily(Goals):
             self.due_date = evening_due + timedelta(days=1)
     
 
-        
-        
-
-    
-        
-
 class Weekly(Goals):
     def __init__ (self, goals_dict):
         super().__init__(goals_dict)
@@ -161,42 +190,7 @@ class Yearly(Goals):
 
 
 
-def create_goals_collection(master_goals):
 
-    time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
-
-    main_goal = input('Enter primary task: ')
-    sec_goal = input('Enter secondary task, to be completed alongside main: ')
-    extra_goals_check = True
-    eg_index = 1
-    eg_dict = {}
-    while extra_goals_check:
-        extra_goal = input('Enter any additional tasks, or just [return] to finish: ')
-        if not extra_goal == "":
-            eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
-        extra_goals_check = False
-        
-    
-    set_goals = {'Main task': main_goal,
-                 'Secondary Task': sec_goal}
-    if eg_dict:
-        set_goals.update(eg_dict)
-    
-
-    if master_goals.active_goals[time_period]:
-        master_goals.active_goals[time_period].archived = True
-        master_goals.goals_archive[time_period].append(master_goals.active_goals[time_period])
-        clear_console()
-
-        
-    if time_period == 'Daily':
-        master_goals.active_goals["Daily"] = Daily(goals_dict=set_goals)
-    elif time_period == 'Weekly':
-        master_goals.active_goals['Weekly'] = Weekly(goals_dict=set_goals)
-    elif time_period == 'Monthly':
-        master_goals.active_goals['Monthly'] = Monthly(goals_dict=set_goals)
-    elif time_period == 'Yearly':
-        master_goals.active_goals['Yearly'] = Yearly(goals_dict=set_goals)
 
 
 

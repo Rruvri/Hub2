@@ -1,12 +1,25 @@
 from datetimetracking import *
+from sysfuncs import clear_console
 
 class MasterMemos:
     def __init__(self):
-        self.collections = []
+        self.collections = {}
 
     def create_memos_collection(self):
         name = input("Enter title for memo list: ")
-        self.collections.append(MemosCol(name))
+        self.collections[name] = (MemosCol(name))
+    
+    def view_collections(self):
+        specified = input('Enter memos collection name, or [return] to view all')
+        if specified == '':
+            return self.collections[specified].view_memos_col()
+        if self.collections:
+            for col in self.collections:
+                print(f'== col.name ==')
+                col.view_memos_col()
+        else:
+            return
+
 
 class MemosCol:
     def __init__(self, name, memos_list=[]):
@@ -32,6 +45,22 @@ class MemosCol:
                     print(memo.due_date)
                 if memo.notes:
                     print(f'\n{memo.notes}')
+        else:
+            print('Empty!')
+    
+    def interact(self):
+        menu_check = True
+        while menu_check:
+            self.view_memos_col()
+            menu = input('[c]reate a memo, or [return] to exit')
+            if menu == '':
+                menu_check = False
+                clear_console()
+            elif menu == 'c':
+                self.create_memo()
+                clear_console()
+                
+
 
     
 
