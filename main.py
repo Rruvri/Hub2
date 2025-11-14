@@ -21,9 +21,9 @@ def main():
         #get_memo_from_readme()
 
         
-        if previous_login:
-            if previous_login.date:
-                pass
+        if previous_login and date_comp(current_datetime, previous_login) == 'Yesterday':
+            pass #here is daily goals refresh
+            
         
         
         if master_goals.active_goals["Daily"]:
@@ -37,15 +37,24 @@ def main():
                 target = targetlist[0]
                 
                 master_memos.view_collections(target)
+            else:
+                index = 1
+                memos_list = list(master_memos.collections.keys())
+                for memo_title in memos_list:
+                    print(f'[{index}] {memo_title}')
+                    index +=1
+                
+                    
         
         
         
         
         
 
-        print("\n==== MENU ====\n[C]reate collection\n") #add rest
-        print("\n[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
-        print("\n[M]emos (create), or +...\n-> [V]iew") #add rest
+        print("\n==== MENU ====\n") #add rest
+        print("[C]reate collection")
+        print("[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
+        print("[M]emos (create), or +...\n-> [V]iew\n") #add rest
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
 

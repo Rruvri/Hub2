@@ -1,5 +1,7 @@
 from datetime import *
 
+from dateutil.relativedelta import relativedelta
+
 
 def date_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%d/%m/%y')
@@ -57,4 +59,16 @@ def time_based_greetings():
 	elif period.startswith('eve'):
 		return('Good evening!')
 		
+# Comparisons ________________________
 
+def date_comp(current_dt, comp_dt):
+	if comp_dt.date() == (current_dt.date() - relativedelta(days=1)):
+		return 'Yesterday'
+					
+
+
+	
+	
+	
+	
+		

@@ -20,6 +20,8 @@ The previous version had item management for stuff at home, memos and goals, rem
         -> If completed, move up next goals
     ! Move dict interactions to a general function for DRY reuse
     ! Decorator for while true menu holding
+    -> Implementing comparison between previous login and current date
+        -> if daily goals set yesterday and today is after yesterday, update goals
 
 
 

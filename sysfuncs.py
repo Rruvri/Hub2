@@ -13,7 +13,7 @@ def menu_hold(func):
         check = True
         while check:
             func(*args, **kwargs)
-            exit = input("eee to exit")
+            exit = input("[return] to exit")
             if exit == 'eee':
                 check = False
              
