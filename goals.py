@@ -61,13 +61,18 @@ class MasterGoals:
                                 "Extra Task 2": "Test4"})
         self.active_goals["Daily"] = test
 
-    def create_goals_collection(self, transferred=None, time_period=None):
+    def create_goals_collection(self):
+        clear_console()
 
-        if not time_period:
-            time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
-        else:
-            print(time_period)
-            print(transferred)
+        time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+        transferred = []
+
+        if self.active_goals[time_period]:
+            print(f'== Archiving previous {time_period} goals ==')
+            transferred = self.active_goals[time_period].archive_interact()
+            clear_console()
+        
+        
 
         main_goal = input('Enter primary task: ')
         sec_goal = input('Enter secondary task, to be completed alongside main: ')
@@ -90,21 +95,10 @@ class MasterGoals:
                 trans_dict[f'Transferred Goal {str(num)}'] = item
                 num += 1
             set_goals.update(trans_dict)
-
-
-            
-        
-
         if eg_dict:
             set_goals.update(eg_dict)
         
-            
         
-
-        if self.active_goals[time_period]:
-            self.active_goals[time_period].archived = True
-            self.goals_archive[time_period].append(self.active_goals[time_period])
-            clear_console()
         
             
         if time_period == 'Daily':
@@ -177,7 +171,6 @@ class Goals:
     def archive_interact(self):
         self.view()
         choice_dict = self.interact()
-        print(choice_dict)
         complete = input("Enter no.s of completed tasks separated by [,], return if none")
         
         if complete != "":
@@ -191,7 +184,7 @@ class Goals:
                 self.goals_dict[choice_dict[str(number)]] = 'Transferred'
         else:
             transfer_list = None
-        return [transfer_list, self.period]
+        return transfer_list
 
             
                 
