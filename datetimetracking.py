@@ -64,7 +64,14 @@ def time_based_greetings():
 def date_comp(current_dt, comp_dt):
 	if comp_dt.date() == (current_dt.date() - relativedelta(days=1)):
 		return 'Yesterday'
-					
+	elif comp_dt.date() == (current_dt.date() + relativedelta(days=1)):
+		return "Tomorrow"
+	elif comp_dt.date() == current_dt.date():
+		return "Today"
+	elif comp_dt.date() > current_dt.date(): 
+		return f'{str(relativedelta(comp_dt.date(), current_dt.date()).days)} from now'
+	elif comp_dt.date() < current_dt.date(): 
+		return f'{str(relativedelta(current_dt.date(), comp_dt.date()).days)} previous'
 
 
 	

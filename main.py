@@ -22,14 +22,22 @@ def main():
 
         
         if previous_login and date_comp(current_datetime, previous_login) == 'Yesterday':
-            pass #here is daily goals refresh
-            
+            pass #set new day tasks
+
+        
+        
+        
         
         
         if master_goals.active_goals["Daily"]:
-            master_goals.active_goals["Daily"].view()
-        
-        
+            if current_datetime.date() > master_goals.active_goals["Daily"].start_dt.date(): 
+                list = master_goals.active_goals["Daily"].archive_interact()
+                master_goals.create_goals_collection(list[0], list[1])
+                main()
+            else:
+                master_goals.active_goals["Daily"].view()
+
+        ''' 
         print('\n== Memos ==')
         if master_memos.collections:
             if len(master_memos.collections.keys()) == 1:
@@ -43,7 +51,7 @@ def main():
                 for memo_title in memos_list:
                     print(f'[{index}] {memo_title}')
                     index +=1
-                
+        '''
                     
         
         
@@ -111,7 +119,7 @@ def main():
         
         elif menu_choice == 'gi':
             clear_console()
-            master_goals.active_goals["Daily"].interact()
+            master_goals.interact_choice()
         
 
     

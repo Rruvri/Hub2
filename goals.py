@@ -36,7 +36,10 @@ class MasterGoals:
         for goal in target:
             if target[goal]:
                 target[goal].view()
-                
+    
+    def interact_choice(self):
+        choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
+        self.active_goals[time_space_dict[choice]].live_interact()
             
     def create_goals_test(self):
         test = Daily(goals_dict={"Main task": "Test",
@@ -45,9 +48,13 @@ class MasterGoals:
                                 "Extra Task 2": "Test4"})
         self.active_goals["Daily"] = test
 
-    def create_goals_collection(self):
+    def create_goals_collection(self, transferred=None, time_period=None):
 
-        time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+        if not time_period:
+            time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+        else:
+            print(time_period)
+            print(transferred)
 
         main_goal = input('Enter primary task: ')
         sec_goal = input('Enter secondary task, to be completed alongside main: ')
@@ -61,13 +68,22 @@ class MasterGoals:
             else:
                 eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
                 eg_index += 1
-            
+        if transferred != None:
+            trans_dict = {}
+            num = 1
+            for item in transferred:
+                trans_dict[f'Transferred Goal {str(num)}'] = item
+                num += 1
+
+
             
         
         set_goals = {'Main task': main_goal,
                     'Secondary Task': sec_goal}
         if eg_dict:
             set_goals.update(eg_dict)
+        if trans_dict:
+            set_goals.update(trans_dict)
         
 
         if self.active_goals[time_period]:
@@ -83,7 +99,9 @@ class MasterGoals:
         elif time_period == 'Monthly':
             self.active_goals['Monthly'] = Monthly(goals_dict=set_goals)
         elif time_period == 'Yearly':
-            self.active_goals['Yearly'] = Yearly(goals_dict=set_goals) 
+            self.active_goals['Yearly'] = Yearly(goals_dict=set_goals)
+
+        return 
     
 
 
@@ -114,20 +132,22 @@ class Goals:
             print(f'{k}: {self.goals_dict[k]}')
             
     def interact(self):
+        choice_no = 0
+        choice_dict = {}
+
+        for key in self.goals_dict.keys():
+            choice_no += 1
+            choice_dict[str(choice_no)] = key
+        return choice_dict         
         
+    def live_interact(self):
+        
+        choice_dict = self.interact()
         menu_check = True
         while menu_check:
-            self.view()
-            
-            choice_no = 0
-            choice_dict = {}
+            self.view()    
             options_dict = {"c": self.complete_goal,
                             "e": self.edit_goal}
-            
-            for key in self.goals_dict.keys():
-                choice_no += 1
-                choice_dict[str(choice_no)] = key 
-            
             goal_choice = input("Enter number to access, or [return] to exit: ")
             if goal_choice == "":
                 menu_check = False
@@ -138,13 +158,36 @@ class Goals:
             
             options_dict[option_choice](goal_choice)
             clear_console()
+            
+    def archive_interact(self):
+        self.view()
+        choice_dict = self.interact()
+        print(choice_dict)
+        complete = input("Enter no.s of completed tasks separated by [,], return if none")
+        
+        if complete != "":
+            for number in complete.split(','):
+                self.complete_goal(choice_dict[str(number)])
+        transfer = input("Enter tasks to transfer to today separated by [,], return for none ")
+        if transfer != "":
+            transfer_list = [] 
+            for number in transfer.split(','):
+                transfer_list.append(self.goals_dict[choice_dict[str(number)]])
+                self.goals_dict[choice_dict[str(number)]] = 'Transferred'
+        else:
+            transfer_list = None
+        return [transfer_list, self.period]
+
+            
+                
+
 
         
     def complete_goal(self, goal):
         if not "Completed" in self.goals_dict:
             self.goals_dict["Completed"] = {}
         completed = {goal: self.goals_dict[goal]}
-        self.goals_dict[goal] = "Completed!"
+        del self.goals_dict[goal]
         self.goals_dict["Completed"].update(completed)
         print("Well Done! :-)")
         sleep(1)
