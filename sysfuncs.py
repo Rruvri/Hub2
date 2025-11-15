@@ -14,7 +14,6 @@ def menu_hold(func):
         while check:
             func(*args, **kwargs)
             exit = input("[return] to exit")
-            if exit == 'eee':
-                check = False
-             
+            if exit == '':
+                check = False             
     return wrapper

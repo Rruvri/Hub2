@@ -14,7 +14,7 @@ from gui import *
 def main():
     while True:
         
-        
+        clear_console()
         print('Welcome to RaviHub!')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
@@ -107,9 +107,9 @@ def main():
 
             
         elif menu_choice == 'gv':
-           return master_goals.view_goals()
+           master_goals.view_goals()
         elif menu_choice == 'gva':
-            return master_goals.view_goals(archive=True)
+            master_goals.view_goals(archive=True)
                 
             
         elif menu_choice == 'gca':

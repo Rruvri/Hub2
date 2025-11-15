@@ -20,22 +20,35 @@ class MasterGoals:
                               "Monthly": [],
                               "Yearly": []}
         
-    
+    @menu_hold
     def view_goals(self, archive=False):
+        clear_console()
         specified = input("[return] to view all, or specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
         target = self.active_goals
         if archive:
             target = self.goals_archive
+            
         if specified != "":
             if target[time_space_dict[specified]]:
-                target[time_space_dict[specified]].interact()
+                if archive:
+                    for item in target[time_space_dict[specified]]:
+                        target[time_space_dict[specified]].view()        
+                else:
+                    target[time_space_dict[specified]].interact()
             else:
                 print(f"{time_space_dict[specified]} currently empty!")
                 
         
         for goal in target:
             if target[goal]:
-                target[goal].view()
+                if archive:
+                    for item in target[goal]:
+                        item.view()                        
+                else:
+                    target[goal].view()
+        
+
+        
     
     def interact_choice(self):
         choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
@@ -58,6 +71,8 @@ class MasterGoals:
 
         main_goal = input('Enter primary task: ')
         sec_goal = input('Enter secondary task, to be completed alongside main: ')
+        set_goals = {'Main task': main_goal,
+                    'Secondary Task': sec_goal}
         extra_goals_check = True
         eg_index = 1
         eg_dict = {}
@@ -74,16 +89,16 @@ class MasterGoals:
             for item in transferred:
                 trans_dict[f'Transferred Goal {str(num)}'] = item
                 num += 1
+            set_goals.update(trans_dict)
 
 
             
         
-        set_goals = {'Main task': main_goal,
-                    'Secondary Task': sec_goal}
+
         if eg_dict:
             set_goals.update(eg_dict)
-        if trans_dict:
-            set_goals.update(trans_dict)
+        
+            
         
 
         if self.active_goals[time_period]:
