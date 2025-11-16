@@ -31,6 +31,7 @@ def main():
         
         if master_goals.active_goals["Daily"]:
             if current_datetime.date() > master_goals.active_goals["Daily"].start_dt.date(): 
+                #update this re archive updates
                 list = master_goals.active_goals["Daily"].archive_interact()
                 master_goals.create_goals_collection(list[0], list[1])
                 main()
