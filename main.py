@@ -19,7 +19,7 @@ def main():
         print(current_complete)
         print(f'{time_based_greetings()}\n')
         #get_memo_from_readme()
-
+        time.sleep(2)
         
         if previous_login and date_comp(current_datetime, previous_login) == 'Yesterday':
             pass #set new day tasks
@@ -31,9 +31,7 @@ def main():
         
         if master_goals.active_goals["Daily"]:
             if current_datetime.date() > master_goals.active_goals["Daily"].start_dt.date(): 
-                #update this re archive updates
-                list = master_goals.active_goals["Daily"].archive_interact()
-                master_goals.create_goals_collection(list[0], list[1])
+                master_goals.create_goals_collection(time_period="Daily")
                 main()
             else:
                 master_goals.active_goals["Daily"].view()

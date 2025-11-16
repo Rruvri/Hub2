@@ -61,19 +61,22 @@ class MasterGoals:
                                 "Extra Task 2": "Test4"})
         self.active_goals["Daily"] = test
 
-    def create_goals_collection(self):
+    def create_goals_collection(self, time_period=None):
         clear_console()
-
-        time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+        if not time_period:
+            time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+        
         transferred = []
 
         if self.active_goals[time_period]:
+            print("You have some pre-existing goals, let's sort those first!\n")
+            time.sleep(1)
             print(f'== Archiving previous {time_period} goals ==')
             transferred = self.active_goals[time_period].archive_interact()
             clear_console()
         
         
-
+        print("-> Set today's goals")
         main_goal = input('Enter primary task: ')
         sec_goal = input('Enter secondary task, to be completed alongside main: ')
         set_goals = {'Main task': main_goal,
