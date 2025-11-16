@@ -19,7 +19,7 @@ def main():
         print(current_complete)
         print(f'{time_based_greetings()}\n')
         #get_memo_from_readme()
-        time.sleep(2)
+        #time.sleep(2)
         
         if previous_login and date_comp(current_datetime, previous_login) == 'Yesterday':
             pass #set new day tasks
@@ -36,13 +36,14 @@ def main():
             else:
                 master_goals.active_goals["Daily"].view()
 
-        ''' 
+        if master_memos.collections:
+            master_memos.view_collections(specified='all')
+        '''
         print('\n== Memos ==')
         if master_memos.collections:
             if len(master_memos.collections.keys()) == 1:
                 targetlist = list(master_memos.collections.keys())
                 target = targetlist[0]
-                
                 master_memos.view_collections(target)
             else:
                 index = 1
@@ -61,7 +62,7 @@ def main():
         print("\n==== MENU ====\n") #add rest
         print("[C]reate collection")
         print("[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
-        print("[M]emos (create), or +...\n-> [V]iew\n") #add rest
+        print("[M]emos (create), or +...\n-> [I]nteract\n-> [V]iew\n-> [R]eset all\n") #add rest
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
 
@@ -91,7 +92,10 @@ def main():
             pass #reset option
         
         elif menu_choice == 'mv':
+            
             master_memos.view_collections()
+        elif menu_choice == 'mi':
+            master_memos.interact_choice()
         elif menu_choice == 'mr':
             master_memos.reset()
         
