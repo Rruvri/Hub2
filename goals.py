@@ -145,7 +145,7 @@ class Goals:
         
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
-        else:
+        else:""
             print(f'\n== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
         index_no = 1
         for k in self.goals_dict:
