@@ -66,8 +66,8 @@ class MasterGoals:
         if not time_period:
             time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
         
-        transferred = []
-
+        transferred = None
+        #update trasnferred
         if self.active_goals[time_period]:
             print("You have some pre-existing goals, let's sort those first!\n")
             time.sleep(1)
@@ -77,10 +77,20 @@ class MasterGoals:
         
         
         print("-> Set today's goals")
-        main_goal = input('Enter primary task: ')
-        sec_goal = input('Enter secondary task, to be completed alongside main: ')
+        if transferred and "Main task" in transferred.keys():
+            print(f"Transferred main task: {transferred["Main Task"]}")
+        else:
+            main_goal = input('Enter primary task: ')
+
+        if transferred and "Secondary task" in transferred.keys():
+            print(f"Transferred secondary task: {transferred["Secondary Task"]}")
+        else:
+            sec_goal = input('Enter secondary task, to be completed alongside main: ')
+        
         set_goals = {'Main task': main_goal,
                     'Secondary Task': sec_goal}
+        if transferred:
+            set_goals.update(transferred)
         extra_goals_check = True
         eg_index = 1
         eg_dict = {}
@@ -91,6 +101,7 @@ class MasterGoals:
             else:
                 eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
                 eg_index += 1
+        '''        
         if transferred != None:
             trans_dict = {}
             num = 1
@@ -98,6 +109,7 @@ class MasterGoals:
                 trans_dict[f'Transferred Goal {str(num)}'] = item
                 num += 1
             set_goals.update(trans_dict)
+        '''
         if eg_dict:
             set_goals.update(eg_dict)
         
@@ -119,7 +131,7 @@ class MasterGoals:
 
 
 class Goals:
-    def __init__(self,  goals_dict, start_dt=current_datetime):
+    def __init__(self, goals_dict, start_dt=current_datetime):
 
         self.due_date = None
         self.goals_dict = goals_dict
@@ -127,27 +139,35 @@ class Goals:
         self.period = "Misc."
 
     
-    def view(self):
+    def view(self, index=False):
+        
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
         else:
             print(f'\n== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
-        
+        index_no = 1
         for k in self.goals_dict:
-            if self.goals_dict[k] == 'Completed!':
+            if k == 'Completed':
+                print(f'{k}:')
+                for item in self.goals_dict[k]:
+                    print(f'-> {item}')
                 continue
+            formatted = f'{k}: {self.goals_dict[k]}'
             if not self.goals_dict[k]:
-                if k == 'Completed':
-                    continue
-                print(f"{k}: Not yet set!")
-                continue
-            print(f'{k}: {self.goals_dict[k]}')
+                formatted = f"{k}: Not yet set!"
+            if index:
+               indexer = f"[{index}] "
+               index_no += 1
+               formatted = indexer + formatted
+            print(formatted)
             
     def interact(self):
         choice_no = 0
         choice_dict = {}
 
         for key in self.goals_dict.keys():
+            if key == 'Completed':
+                continue
             choice_no += 1
             choice_dict[str(choice_no)] = key
         return choice_dict         
@@ -179,15 +199,29 @@ class Goals:
         if complete != "":
             for number in complete.split(','):
                 self.complete_goal(choice_dict[str(number)])
-        transfer = input("Enter tasks to transfer to today separated by [,], return for none ")
+        transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none ")
         if transfer != "":
-            transfer_list = [] 
-            for number in transfer.split(','):
-                transfer_list.append(self.goals_dict[choice_dict[str(number)]])
+            transfer_dict = {}
+            index = 1 
+            for item in transfer.split(','):
+                number = item
+                destination = 'Transferred task '
+                if len(item) > 1:
+                    number = item[0]
+                    if item[1] == 'm':
+                        destination = 'Main task'
+                    elif item[1] == 's':
+                        destination = 'Secondary task'
+                else:
+                    destination = destination + str(index)
+                    index += 1
+                transfer_dict[destination] = self.goals_dict[choice_dict[str(number)]]
+
+                #transfer_list.append(self.goals_dict[choice_dict[str(number)]])
                 self.goals_dict[choice_dict[str(number)]] = 'Transferred'
         else:
-            transfer_list = None
-        return transfer_list
+            transfer_dict = None
+        return transfer_dict
 
             
                 

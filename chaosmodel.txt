@@ -1,0 +1,15 @@
+cm = story, artist, feedback_loop
+
+music != tell_story
+music == set_scene
+
+story = [method, interpretation, online]
+performances = intermissions
+intermissions = transmissions from world
+humanity == outcasts
+story == timedelta(years=200)
+
+-> singular system of consciousness/ control
+cm = initiative of people, reformat consciousness trhough chaos
+singular unity of consciousness, code splits existence
+existence = reality,  ..., firld of consciousness
