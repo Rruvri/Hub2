@@ -15,7 +15,8 @@ def date_and_time_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%d/%m/%y | %H:%M')
 
 
-current_datetime = datetime.now()
+#current_datetime = datetime.now()
+current_datetime = datetime.now().replace(day=19)
 
 current_date = date_format(current_datetime)
 current_time = time_format(current_datetime)

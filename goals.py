@@ -32,7 +32,7 @@ class MasterGoals:
             if target[time_space_dict[specified]]:
                 if archive:
                     for item in target[time_space_dict[specified]]:
-                        target[time_space_dict[specified]].view()        
+                        item.view()        
                 else:
                     target[time_space_dict[specified]].interact()
             else:
@@ -56,9 +56,9 @@ class MasterGoals:
             
     def create_goals_test(self):
         test = Daily(goals_dict={"Main task": "Test",
-                                "Secondary Task": "Test2",
-                                "Extra Task 1": "Test3", 
-                                "Extra Task 2": "Test4"})
+                                "Secondary task": "Test2",
+                                "Extra task 1": "Test3", 
+                                "Extra task 2": "Test4"})
         self.active_goals["Daily"] = test
 
     def create_goals_collection(self, time_period=None):
@@ -75,20 +75,22 @@ class MasterGoals:
             transferred = self.active_goals[time_period].archive_interact()
             clear_console()
         
-        
+        main_goal = None
+        sec_goal = None
         print("-> Set today's goals")
+        print(transferred)
         if transferred and "Main task" in transferred.keys():
-            print(f"Transferred main task: {transferred["Main Task"]}")
+            print(f"Transferred main task: {transferred["Main task"]}")
         else:
             main_goal = input('Enter primary task: ')
 
         if transferred and "Secondary task" in transferred.keys():
-            print(f"Transferred secondary task: {transferred["Secondary Task"]}")
+            print(f"Transferred secondary task: {transferred["Secondary task"]}")
         else:
             sec_goal = input('Enter secondary task, to be completed alongside main: ')
         
         set_goals = {'Main task': main_goal,
-                    'Secondary Task': sec_goal}
+                    'Secondary task': sec_goal}
         if transferred:
             set_goals.update(transferred)
         extra_goals_check = True
@@ -150,13 +152,16 @@ class Goals:
             if k == 'Completed':
                 print(f'{k}:')
                 for item in self.goals_dict[k]:
-                    print(f'-> {item}')
+                    if isinstance(item, list): #Broken view func
+                        print(item) 
+                    elif isinstance(item, dict):
+                        print(f'-> [{item}] {k[item]}')
                 continue
             formatted = f'{k}: {self.goals_dict[k]}'
             if not self.goals_dict[k]:
                 formatted = f"{k}: Not yet set!"
             if index:
-               indexer = f"[{index}] "
+               indexer = f"[{index_no}] "
                index_no += 1
                formatted = indexer + formatted
             print(formatted)
@@ -192,13 +197,18 @@ class Goals:
             clear_console()
             
     def archive_interact(self):
-        self.view()
+        self.view(index=True)
         choice_dict = self.interact()
         complete = input("Enter no.s of completed tasks separated by [,], return if none")
         
         if complete != "":
             for number in complete.split(','):
                 self.complete_goal(choice_dict[str(number)])
+                clear_console()
+                self.view(index=True)
+            sleep(1)
+            choice_dict = self.interact()
+        
         transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none ")
         if transfer != "":
             transfer_dict = {}
@@ -221,6 +231,7 @@ class Goals:
                 self.goals_dict[choice_dict[str(number)]] = 'Transferred'
         else:
             transfer_dict = None
+
         return transfer_dict
 
             
