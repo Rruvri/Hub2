@@ -73,6 +73,9 @@ class MasterGoals:
             time.sleep(1)
             print(f'== Archiving previous {time_period} goals ==')
             transferred = self.active_goals[time_period].archive_interact()
+            
+            #below is append to archive, not sure if this will work
+            self.goals_archive[time_period].append(self.active_goals[time_period])
             clear_console()
         
         
@@ -115,7 +118,7 @@ class MasterGoals:
         
         
         
-            
+        #this could be better            
         if time_period == 'Daily':
             self.active_goals["Daily"] = Daily(goals_dict=set_goals)
         elif time_period == 'Weekly':
@@ -221,6 +224,8 @@ class Goals:
                 self.goals_dict[choice_dict[str(number)]] = 'Transferred'
         else:
             transfer_dict = None
+        
+        #add append to master
         return transfer_dict
 
             
