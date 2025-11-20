@@ -56,9 +56,9 @@ class MasterGoals:
             
     def create_goals_test(self):
         test = Daily(goals_dict={"Main task": "Test",
-                                "Secondary Task": "Test2",
-                                "Extra Task 1": "Test3", 
-                                "Extra Task 2": "Test4"})
+                                "Secondary task": "Test2",
+                                "Extra task 1": "Test3", 
+                                "Extra task 2": "Test4"})
         self.active_goals["Daily"] = test
 
     def create_goals_collection(self, time_period=None):
@@ -80,18 +80,20 @@ class MasterGoals:
         
         
         print("-> Set today's goals")
+        main_goal = None
+        sec_goal = None
         if transferred and "Main task" in transferred.keys():
-            print(f"Transferred main task: {transferred["Main Task"]}")
+            print(f"Transferred main task: {transferred["Main task"]}")
         else:
             main_goal = input('Enter primary task: ')
 
         if transferred and "Secondary task" in transferred.keys():
-            print(f"Transferred secondary task: {transferred["Secondary Task"]}")
+            print(f"Transferred secondary task: {transferred["Secondary task"]}")
         else:
             sec_goal = input('Enter secondary task, to be completed alongside main: ')
         
         set_goals = {'Main task': main_goal,
-                    'Secondary Task': sec_goal}
+                    'Secondary task': sec_goal}
         if transferred:
             set_goals.update(transferred)
         extra_goals_check = True
@@ -104,15 +106,7 @@ class MasterGoals:
             else:
                 eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
                 eg_index += 1
-        '''        
-        if transferred != None:
-            trans_dict = {}
-            num = 1
-            for item in transferred:
-                trans_dict[f'Transferred Goal {str(num)}'] = item
-                num += 1
-            set_goals.update(trans_dict)
-        '''
+        
         if eg_dict:
             set_goals.update(eg_dict)
         
@@ -153,13 +147,13 @@ class Goals:
             if k == 'Completed':
                 print(f'{k}:')
                 for item in self.goals_dict[k]:
-                    print(f'-> {item}')
+                    print(f'-> {item}: {self.goals_dict[k][item]}')
                 continue
             formatted = f'{k}: {self.goals_dict[k]}'
             if not self.goals_dict[k]:
                 formatted = f"{k}: Not yet set!"
             if index:
-               indexer = f"[{index}] "
+               indexer = f"[{index_no}] "
                index_no += 1
                formatted = indexer + formatted
             print(formatted)
@@ -195,13 +189,16 @@ class Goals:
             clear_console()
             
     def archive_interact(self):
-        self.view()
+        self.view(index=True)
         choice_dict = self.interact()
         complete = input("Enter no.s of completed tasks separated by [,], return if none")
         
         if complete != "":
             for number in complete.split(','):
                 self.complete_goal(choice_dict[str(number)])
+                clear_console()
+                choice_dict = self.interact()
+                self.view(index=True)
         transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none ")
         if transfer != "":
             transfer_dict = {}
@@ -240,7 +237,7 @@ class Goals:
         del self.goals_dict[goal]
         self.goals_dict["Completed"].update(completed)
         print("Well Done! :-)")
-        sleep(1)
+        #sleep(1)
         return
     
     def edit_goal(self, goal):
