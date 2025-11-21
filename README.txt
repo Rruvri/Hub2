@@ -10,6 +10,10 @@ The previous version had item management for stuff at home, memos and goals, rem
 + Time-based tracking, day periods for routines etc.
 + Save system with Pickle
 + Basic Daily goals tracking
+    + Archive function
+    + View function
+    + Dynamic updating for next day
+
 
 == Now working on:
 
@@ -21,13 +25,17 @@ The previous version had item management for stuff at home, memos and goals, rem
     -> Tied with general collection listing + index no.s, add a handle that stops out of range inputs
 
 -> Daily goals tracking
-    -> Complete/ edit goals
+    + Complete/ edit goals
         -> If completed, move up next goals
+
     ! Move dict interactions to a general function for DRY reuse
+
     ! Decorator for while true menu holding
         -> Basic version implemented but not universally applied nor very efficient
+        
     -> Implementing comparison between previous login and current date
-        -> if daily goals set yesterday and today is after yesterday, update goals
+        + if daily goals set yesterday and today is after yesterday, update goals
+            -> this is done, but could be cleaner
 
 -> Memos
     -> Started basic implementation
