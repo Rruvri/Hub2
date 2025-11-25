@@ -5,7 +5,7 @@ import saves
 from groups import create_collection
 #from goals import create_goals_collection, create_goals_test
 
-from gui import *
+#from gui import goals_gui_constructor
 
 
 
@@ -64,7 +64,7 @@ def main():
         print("[C]reate collection")
         print("[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
         print("[M]emos (create), or +...\n-> [I]nteract\n-> [V]iew\n-> [R]eset all") #add rest
-        print("[L]oad [p]revious save")
+        #print("[L]oad [p]revious save")
         print("\n")
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
@@ -80,9 +80,10 @@ def main():
             sys.exit()
         
         elif menu_choice == 'lp':
-            
-            saves.load_prev_save()
-            continue
+            pass
+            #saves.load_prev_save()
+            #continue
+            #THIS NEEDS A FIX
 
 
         elif menu_choice == 'c':
@@ -126,6 +127,15 @@ def main():
         elif menu_choice == 'gi':
             sysfuncs.clear_console()
             saves.master_goals.interact_choice()
+        
+        elif menu_choice == 'w':
+            pass #gui.window.mainloop()
+        elif menu_choice == 'wp':
+            pass
+            #goals_gui_constructor(saves.master_goals)
+            
+
+
         
 
     

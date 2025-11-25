@@ -44,6 +44,7 @@ class MemosCol:
     
     def create_memo(self):
         content = input("Enter memo content: ")
+        #add a short form function, for i.e. grocery lists
         notes = input("Enter further notes if required, [return] to continue: ")
         if notes == '':
             notes == None
@@ -57,8 +58,8 @@ class MemosCol:
     def view_memos_col(self):
         print(f'\n[{self.name}]')
         if self.memos_list:
+            index = 1
             for memo in self.memos_list:
-                index = 1
                 main_body = f'{index} -> {memo.content}'
                 if memo.due_date:
                     print(main_body + f' | {memo.due_date}')

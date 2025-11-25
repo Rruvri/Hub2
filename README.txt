@@ -27,6 +27,8 @@ The previous version had item management for stuff at home, memos and goals, rem
 -> Daily goals tracking
     + Complete/ edit goals
         -> If completed, move up next goals
+    
+    ! Add a 'set tomorrow's goals' early
 
     ! Move dict interactions to a general function for DRY reuse
 
@@ -39,6 +41,8 @@ The previous version had item management for stuff at home, memos and goals, rem
 
 -> Memos
     -> Started basic implementation
+
+    ! Add a 'shorthand' toggle for collections such as grocery lists, that would never need additional notes
 
 
 

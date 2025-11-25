@@ -156,6 +156,8 @@ class Goals:
                indexer = f"[{index_no}] "
                index_no += 1
                formatted = indexer + formatted
+            if k == 'Main task' or k == 'Secondary task':
+                formatted = formatted + '\n'
             print(formatted)
             
     def interact(self):
@@ -195,11 +197,14 @@ class Goals:
         
         if complete != "":
             for number in complete.split(','):
-                self.complete_goal(choice_dict[str(number)])
-                clear_console()
-                choice_dict = self.interact()
-                self.view(index=True)
+                self.complete_goal(choice_dict[str(number)], multi=True)
+            for number in complete.split(','):
+                del self.goals_dict[(choice_dict[str(number)])]
+            clear_console()
+            choice_dict = self.interact()
+            self.view(index=True)
         transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none ")
+        
         if transfer != "":
             transfer_dict = {}
             index = 1 
@@ -230,14 +235,15 @@ class Goals:
 
 
         
-    def complete_goal(self, goal):
+    def complete_goal(self, goal, multi=False):
         if not "Completed" in self.goals_dict:
             self.goals_dict["Completed"] = {}
         completed = {goal: self.goals_dict[goal]}
-        del self.goals_dict[goal]
+        if not multi:
+            del self.goals_dict[goal]
+            print("Well Done! :-)")
+            sleep(1)
         self.goals_dict["Completed"].update(completed)
-        print("Well Done! :-)")
-        #sleep(1)
         return
     
     def edit_goal(self, goal):
