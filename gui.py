@@ -18,6 +18,7 @@ def goals_gui_constructor(mastergoals):
         goal_content = tk.Label(master=mainframe, text=mastergoals.active_goals[item])
         goal_label.pack()
         goal_content.pack()
+    
     window.mainloop()
 
 

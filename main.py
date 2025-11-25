@@ -26,8 +26,8 @@ def main():
         #time.sleep(2)
         
 
-        if saves.previous_login and date_comp(current_datetime, saves.previous_login) == 'Yesterday':
-            pass #set new day tasks
+        #if saves.previous_login and date_comp(current_datetime, saves.previous_login) == 'Yesterday':
+            #pass #set new day tasks
 
         
         if saves.master_goals.active_goals["Daily"]:
