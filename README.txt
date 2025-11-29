@@ -44,8 +44,13 @@ The previous version had item management for stuff at home, memos and goals, rem
 
     ! Add a 'shorthand' toggle for collections such as grocery lists, that would never need additional notes
 
+    ! add a sublist/ extended notes feature that would align with e.g. translating this README into a memos (task) list
+
 
 
 
 === ROADMAPish... ===
-! Move over or redo item, memo collections
+! Implement Item tracking  
+    ! Either copy across old structure from Hub1, or start fresh (with GUI in mind)
+
+! Implement GUI

@@ -39,12 +39,15 @@ class MasterGoals:
                 print(f"{time_space_dict[specified]} currently empty!")
                 
         
-        for goal in target:
-            if target[goal]:
+            for goal in target:
                 if archive:
-                    for item in target[goal]:
-                        item.view()                        
-                else:
+                    for item in target:
+                            item.view()          
+                elif target[goal]:
+                    #if archive:
+                      #  for item in target[goal]:
+                     #       item.view()                        
+                    #else:
                     target[goal].view()
         
 
@@ -104,7 +107,7 @@ class MasterGoals:
             if extra_goal == "":
                 extra_goals_check = False
             else:
-                eg_dict[f'Extra Goal {str(eg_index)}'] = extra_goal
+                eg_dict[f'Extra goal {str(eg_index)}'] = extra_goal
                 eg_index += 1
         
         if eg_dict:
@@ -143,6 +146,7 @@ class Goals:
         else:
             print(f'\n== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
         index_no = 1
+        
         for k in self.goals_dict:
             if k == 'Completed':
                 print(f'{k}:')
@@ -172,23 +176,25 @@ class Goals:
         return choice_dict         
         
     def live_interact(self):
-        
+        clear_console()
         choice_dict = self.interact()
         menu_check = True
         while menu_check:
             self.view()    
             options_dict = {"c": self.complete_goal,
                             "e": self.edit_goal}
-            goal_choice = input("Enter number to access, or [return] to exit: ")
+            goal_choice = input("Enter number to access, [a]dd a new goal or [return] to exit: ")
             if goal_choice == "":
                 menu_check = False
                 clear_console()
                 return
-            goal_choice = choice_dict[goal_choice]
-            option_choice = input("[C]omplete goal, or [E]dit goal?: ")
+            elif goal_choice == 'a':
+                self.add_goal()
+            else:
+                goal_choice = choice_dict[goal_choice]
+                option_choice = input("[C]omplete goal, or [E]dit goal?: ")
+                options_dict[option_choice](goal_choice)
             
-            options_dict[option_choice](goal_choice)
-            clear_console()
             
     def archive_interact(self):
         self.view(index=True)
@@ -251,7 +257,19 @@ class Goals:
         if edit == "":
             edit = None
         self.goals_dict[goal] = edit
-        return         
+        return
+
+    def add_goal(self):
+        goal = input("Enter new goal: ")
+        highest_eg = 0
+        for item in self.goals_dict:
+            if item.startswith("Extra"):
+                num = int(item[len(item)-1])
+                if num > highest_eg:
+                    highest_eg = num
+        highest_eg +=1
+        self.goals_dict[f'Extra goal {str(highest_eg)}'] = goal
+        return
     
     def time_based_prompts(self):
         pass
