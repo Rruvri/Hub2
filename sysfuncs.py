@@ -17,3 +17,7 @@ def menu_hold(func):
             if exit == '':
                 check = False             
     return wrapper
+
+def indexer(func):
+    def wrapper(*args, **kwargs):
+        pass

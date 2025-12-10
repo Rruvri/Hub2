@@ -32,7 +32,8 @@ class MasterGoals:
             if target[time_space_dict[specified]]:
                 if archive:
                     for item in target[time_space_dict[specified]]:
-                        target[time_space_dict[specified]].view()        
+                        item.view()
+                    return        
                 else:
                     target[time_space_dict[specified]].interact()
             else:
@@ -148,20 +149,31 @@ class Goals:
         index_no = 1
         
         for k in self.goals_dict:
-            if k == 'Completed':
+            if k == 'Completed': #needs update for ordering on view
                 print(f'{k}:')
                 for item in self.goals_dict[k]:
-                    print(f'-> {item}: {self.goals_dict[k][item]}')
+                    tag = item
+                    if item.startswith('Extra'):
+                        tag = 'Extra task'
+                    elif item.startswith('Trans'):
+                        tag = 'Transferred task'
+
+                    print(f'-> {tag}: {self.goals_dict[k][item]}')
                 continue
             formatted = f'{k}: {self.goals_dict[k]}'
             if not self.goals_dict[k]:
                 formatted = f"{k}: Not yet set!"
+            if k.startswith("Extra"):
+                formatted = f'Extra task: {self.goals_dict[k]}'
+            if k.startswith("Trans"):
+                formatted = f'Transferred task: {self.goals_dict[k]}' 
             if index:
                indexer = f"[{index_no}] "
                index_no += 1
                formatted = indexer + formatted
             if k == 'Main task' or k == 'Secondary task':
                 formatted = formatted + '\n'
+            
             print(formatted)
             
     def interact(self):
@@ -180,7 +192,7 @@ class Goals:
         choice_dict = self.interact()
         menu_check = True
         while menu_check:
-            self.view()    
+            self.view(index=True)    
             options_dict = {"c": self.complete_goal,
                             "e": self.edit_goal}
             goal_choice = input("Enter number to access, [a]dd a new goal or [return] to exit: ")
@@ -226,14 +238,15 @@ class Goals:
                 else:
                     destination = destination + str(index)
                     index += 1
-                transfer_dict[destination] = self.goals_dict[choice_dict[str(number)]]
+                g = self.goals_dict[choice_dict[str(number)]]
+                transfer_dict[destination] = g
 
-                #transfer_list.append(self.goals_dict[choice_dict[str(number)]])
-                self.goals_dict[choice_dict[str(number)]] = 'Transferred'
+                
+                self.goals_dict[choice_dict[str(number)]] = '[Transferred] ' + g
         else:
             transfer_dict = None
         
-        #add append to master
+        
         return transfer_dict
 
             
@@ -254,8 +267,14 @@ class Goals:
     
     def edit_goal(self, goal):
         edit = input("Enter updated goal, or [return] to clear: ")
+        
+        
         if edit == "":
-            edit = None
+            if goal.startswith('Extra') or goal.startswith('Trans'):
+                del self.goals_dict[goal]
+                return
+            else:    
+                edit = None
         self.goals_dict[goal] = edit
         return
 
@@ -269,6 +288,10 @@ class Goals:
                     highest_eg = num
         highest_eg +=1
         self.goals_dict[f'Extra goal {str(highest_eg)}'] = goal
+        if 'Completed' in self.goals_dict:
+            temp = self.goals_dict['Completed']
+            del self.goals_dict['Completed']
+            self.goals_dict['Completed'] = temp
         return
     
     def time_based_prompts(self):

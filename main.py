@@ -2,6 +2,7 @@ from datetimetracking import *
 import sysfuncs
 import sys
 import saves
+import calendarobjs
 from groups import create_collection
 #from goals import create_goals_collection, create_goals_test
 
@@ -22,6 +23,7 @@ def main():
         print('Welcome to RaviHub!')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
+        print(f'\n{calendarobjs.month_cal()}')
         #get_memo_from_readme()
         #time.sleep(2)
         
@@ -40,7 +42,11 @@ def main():
                 saves.master_goals.active_goals["Daily"].view()
 
         if saves.master_memos.collections:
-            saves.master_memos.view_collections(specified='all')
+            #saves.master_memos.view_collections(specified='all')
+            print('\n== Memos ==\n')
+            for col in saves.master_memos.collections:
+                print(f'{col} [{len(saves.master_memos.collections[col].memos_list)} open memos]')
+
         '''
         print('\n== Memos ==')
         if master_memos.collections:
@@ -68,6 +74,8 @@ def main():
         print("[M]emos (create), or +...\n-> [I]nteract\n-> [V]iew\n-> [R]eset all") #add rest
         #print("[L]oad [p]revious save")
         print("\n")
+
+    
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
 
@@ -136,10 +144,5 @@ def main():
             pass
             #goals_gui_constructor(saves.master_goals)
             
-
-
-        
-
-    
 
 main()

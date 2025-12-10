@@ -27,6 +27,9 @@ The previous version had item management for stuff at home, memos and goals, rem
 -> Daily goals tracking
     + Complete/ edit goals
         -> If completed, move up next goals
+        
+        + If deleted and not main/sec. clear field
+            -> Realistically, whole thing needs a reformat
     
     ! Add a 'set tomorrow's goals' early
 
@@ -41,10 +44,14 @@ The previous version had item management for stuff at home, memos and goals, rem
 
 -> Memos
     -> Started basic implementation
+        + There's a bug with view fn, check about changing class methods
+            -> It's menu_hold was missing, but this feels messy so have a look
 
     ! Add a 'shorthand' toggle for collections such as grocery lists, that would never need additional notes
 
     ! add a sublist/ extended notes feature that would align with e.g. translating this README into a memos (task) list
+
+
 
 
 
