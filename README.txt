@@ -61,3 +61,6 @@ The previous version had item management for stuff at home, memos and goals, rem
     ! Either copy across old structure from Hub1, or start fresh (with GUI in mind)
 
 ! Implement GUI
+
+! Contacts/ connections page, where everyone has a 'profile'
+    ! Basically to track replies and plans, per-relationship memos

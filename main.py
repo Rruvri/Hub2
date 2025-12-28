@@ -27,13 +27,6 @@ def main():
         #get_memo_from_readme()
         #time.sleep(2)
         
-
-        #if saves.previous_login and date_comp(current_datetime, saves.previous_login) == 'Yesterday':
-            #pass #set new day tasks
-
-        #for item in saves.master_goals.goals_archive["Daily"]:
-         #   item.view()
-        
         if saves.master_goals.active_goals["Daily"]:
             if current_datetime.date() > saves.master_goals.active_goals["Daily"].start_dt.date(): 
                 saves.master_goals.create_goals_collection(time_period="Daily")

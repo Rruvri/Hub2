@@ -150,7 +150,7 @@ class Goals:
         
         for k in self.goals_dict:
             if k == 'Completed': #needs update for ordering on view
-                print(f'{k}:')
+                print(f'\n{k}:')
                 for item in self.goals_dict[k]:
                     tag = item
                     if item.startswith('Extra'):
@@ -195,7 +195,7 @@ class Goals:
             self.view(index=True)    
             options_dict = {"c": self.complete_goal,
                             "e": self.edit_goal}
-            goal_choice = input("Enter number to access, [a]dd a new goal or [return] to exit: ")
+            goal_choice = input("\nEnter number to access, [a]dd a new goal or [return] to exit: ")
             if goal_choice == "":
                 menu_check = False
                 clear_console()
