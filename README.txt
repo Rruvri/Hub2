@@ -4,6 +4,11 @@ The previous version had item management for stuff at home, memos and goals, rem
 [!] is To-Do, [->] completed or in progress
 
 
+==Reminder of direction
+-> Based off the original RPG-Style tracker that this will eventually become, now it's a new (fresh) year I'm thinking to structure this as a 'storybook'
+    -> Days are subsections, weeks are chapters, months are parts and year is the adventure!
+    -> d = enemy, w = miniboss, m = boss, year = final boss!
+
 === CURRENT FEATURES ===
 
 == Completed:
