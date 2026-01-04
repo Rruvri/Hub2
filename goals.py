@@ -7,6 +7,9 @@ time_space_dict = {"d": "Daily",
                    "m": "Monthly",
                    "y": "Yearly"}
 
+def time_checker_script_for_auto_updates(): # placeholder for automatically adding goals based on realtime
+    pass 
+
 class MasterGoals:
     def __init__(self):
         self.active_goals = {"Daily": None,
@@ -128,8 +131,6 @@ class MasterGoals:
 
         return 
     
-
-
 
 class Goals:
     def __init__(self, goals_dict, start_dt=current_datetime):
