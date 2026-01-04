@@ -145,7 +145,8 @@ class Goals:
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
         else:
-            print(f'\n== {self.period} ==\nDue: {date_and_time_format(self.due_date)}\n')
+            print(f'\n== {self.period} ==\nDue: {date_comp(self.start_dt, self.due_date)} | {time_format(self.due_date)}\n')
+
         index_no = 1
         
         for k in self.goals_dict:
@@ -211,7 +212,7 @@ class Goals:
     def archive_interact(self):
         self.view(index=True)
         choice_dict = self.interact()
-        complete = input("Enter no.s of completed tasks separated by [,], return if none")
+        complete = input("Enter no.s of completed tasks separated by [,], return if none: ")
         
         if complete != "":
             for number in complete.split(','):
@@ -221,7 +222,7 @@ class Goals:
             clear_console()
             choice_dict = self.interact()
             self.view(index=True)
-        transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none ")
+        transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none: ")
         
         if transfer != "":
             transfer_dict = {}
@@ -246,14 +247,9 @@ class Goals:
         else:
             transfer_dict = None
         
-        
         return transfer_dict
 
-            
-                
 
-
-        
     def complete_goal(self, goal, multi=False):
         if not "Completed" in self.goals_dict:
             self.goals_dict["Completed"] = {}
@@ -267,7 +263,6 @@ class Goals:
     
     def edit_goal(self, goal):
         edit = input("Enter updated goal, or [return] to clear: ")
-        
         
         if edit == "":
             if goal.startswith('Extra') or goal.startswith('Trans'):
@@ -294,7 +289,7 @@ class Goals:
             self.goals_dict['Completed'] = temp
         return
     
-    def time_based_prompts(self):
+    def time_based_prompts(self): #maybe these might need relativity depending on d/m/y etc
         pass
 
 class Daily(Goals):
@@ -307,18 +302,28 @@ class Daily(Goals):
         evening_due = current_datetime.replace(hour=18, minute=0)
 
         if time_check(current_datetime) != ("eve1" or "eve2"):
-            self.due_date = evening_due
+            self.due_date = evening_due #just change this to an objective cut-off time
         else:
             self.due_date = evening_due + timedelta(days=1)
+            #add activities separator, to distinguish goals from events
     
 
 class Weekly(Goals):
     def __init__ (self, goals_dict):
         super().__init__(goals_dict)
 
+        self.period = "Weekly"
+        self.start_dt = None #find a clean method to centre this over current dt RELATIVE DELTA
+
+
+
 class Monthly(Goals):
     def __init__ (self, goals_dict):
         super().__init__(goals_dict)
+
+        self.period = "Monthly"
+        self.start_dt = current_datetime.replace(day=1, hour=8, minute=30, second=0)
+        self.due_date = None #find general method for last day of month 
 
 class Yearly(Goals):
     def __init__ (self, goals_dict):

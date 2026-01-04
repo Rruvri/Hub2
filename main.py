@@ -17,13 +17,12 @@ def main():
     first_load = True
     while True:
         
-            
-            
         sysfuncs.clear_console()
         print('Welcome to RaviHub!')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
         print(f'\n{calendarobjs.month_cal()}')
+        print(f'\n\n{year_dt_countdown()}')
         #get_memo_from_readme()
         #time.sleep(2)
         

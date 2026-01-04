@@ -20,7 +20,6 @@ def month_format(datetimeobj):
 
 
 current_datetime = datetime.now()
-#current_datetime = datetime.now().replace(day=2)
 
 current_date = date_format(current_datetime)
 current_time = time_format(current_datetime)
@@ -37,6 +36,19 @@ def datestr_to_dt(date_string):
 #datetime checks______________________________________________________________________
 def get_date_change(date, shift_days=0, shift_hours=0, shift_minutes=0):
 	return date + timedelta(days=shift_days, hours=shift_hours, minutes= shift_minutes)
+
+def get_dt_countdown(date, target_date): #is this necessary?
+	countdown = target_date - date
+	return f'{countdown} left'
+
+def year_dt_countdown():
+	year_end = datetime.today().replace(day=31, month=12, hour=23, minute=59, second=59)
+	countdown = year_end - datetime.now()
+	
+	return f"{countdown.days}/365 days remaining of this year!"
+
+
+
 
 
 def time_check(datetimeobj):

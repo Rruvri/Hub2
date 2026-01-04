@@ -10,10 +10,12 @@ from items import *
 master_item_collections = MasterItems()
 master_memos = MasterMemos()
 master_goals = MasterGoals()
+
+
 previous_login = None
 prev_save_copy = None
  
-def load_initial_save():
+def load_initial_save(): #could you exchange globals for () input?
     global master_item_collections, master_memos, master_goals, previous_login, prev_save_copy
     wd = os.getcwd()
     wd_files = os.listdir(wd)
