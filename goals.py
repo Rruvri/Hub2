@@ -146,8 +146,13 @@ class Goals:
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
         else:
-            print(f'\n== {self.period} ==\nDue: {date_comp(self.start_dt, self.due_date)} | {time_format(self.due_date)}\n')
+            due_comp = date_comp(self.start_dt, self.due_date)
+            if due_comp == "Today" or due_comp == "Tomorrow":
+                print(f'\n== {self.period} ==\nDue: {due_comp} | {time_format(self.due_date)}\n')
+            else:
+                print(f'\n== {self.period} ==\nDue: {due_comp}\n')
 
+                
         index_no = 1
         
         for k in self.goals_dict:
@@ -314,8 +319,10 @@ class Weekly(Goals):
         super().__init__(goals_dict)
 
         self.period = "Weekly"
-        self.start_dt = None #find a clean method to centre this over current dt RELATIVE DELTA
+        self.start_dt = (current_datetime - relativedelta(weekday=0)).replace(hour=8, minute=0)
+        self.due_date = (self.start_dt + relativedelta(weekday=6)).replace(hour=20, minute=0)
 
+        
 
 
 class Monthly(Goals):

@@ -32,6 +32,9 @@ def main():
                 main()
             else:
                 saves.master_goals.active_goals["Daily"].view()
+        
+        if saves.master_goals.active_goals["Weekly"]:
+            saves.master_goals.active_goals["Weekly"].view()
 
         if saves.master_memos.collections:
             #saves.master_memos.view_collections(specified='all')
@@ -70,7 +73,7 @@ def main():
     
 
         menu_choice = input('Enter choice, or [e] to exit: ').lower()
-
+        #change below to a dictionary for sure
 
 
         

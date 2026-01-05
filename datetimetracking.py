@@ -86,9 +86,9 @@ def date_comp(current_dt, comp_dt):
 	elif comp_dt.date() == current_dt.date():
 		return "Today"
 	elif comp_dt.date() > current_dt.date(): 
-		return f'{str(relativedelta(comp_dt.date(), current_dt.date()).days)} from now'
+		return f'{str(relativedelta(comp_dt.date(), current_dt.date()).days)} days from now'
 	elif comp_dt.date() < current_dt.date(): 
-		return f'{str(relativedelta(current_dt.date(), comp_dt.date()).days)} previous'
+		return f'{str(relativedelta(current_dt.date(), comp_dt.date()).days)} days previous'
 
 
 	
