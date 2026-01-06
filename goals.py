@@ -323,7 +323,7 @@ class Weekly(Goals):
         self.due_date = (self.start_dt + relativedelta(weekday=6)).replace(hour=20, minute=0)
 
         
-
+#test
 
 class Monthly(Goals):
     def __init__ (self, goals_dict):
