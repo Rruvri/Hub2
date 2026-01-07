@@ -146,13 +146,15 @@ class Goals:
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}")
         else:
-            due_comp = date_comp(self.start_dt, self.due_date)
+            due_comp = date_comp(current_datetime, self.due_date)
             if due_comp == "Today" or due_comp == "Tomorrow":
                 print(f'\n== {self.period} ==\nDue: {due_comp} | {time_format(self.due_date)}\n')
             else:
                 print(f'\n== {self.period} ==\nDue: {due_comp}\n')
 
-                
+        #maybe move this to goals class
+
+
         index_no = 1
         
         for k in self.goals_dict:
@@ -322,7 +324,7 @@ class Weekly(Goals):
         super().__init__(goals_dict)
 
         self.period = "Weekly"
-        self.start_dt = (current_datetime - relativedelta(weekday=0)).replace(hour=8, minute=0)
+        self.start_dt = (current_datetime - relativedelta(days=current_datetime.weekday())).replace(hour=8, minute=0)
         self.due_date = (self.start_dt + relativedelta(weekday=6)).replace(hour=20, minute=0)
 
 
@@ -332,14 +334,15 @@ class Monthly(Goals):
 
         self.period = "Monthly"
         self.start_dt = current_datetime.replace(day=1, hour=8, minute=30, second=0)
-        self.due_date = None #find general method for last day of month 
+        self.due_date = (self.start_dt + relativedelta(months=1, days=-1)).replace(hour=20, minute=30) 
 
 class Yearly(Goals):
     def __init__ (self, goals_dict):
         super().__init__(goals_dict)
 
         self.period = "Yearly"
-
+        self.start_dt = current_datetime.replace(day=1, month=1, hour=8, minute=30)
+        self.due_date = self.start_dt.replace(day=31, month=12, hour=12, minute=0)
 
 
 
