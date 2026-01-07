@@ -199,10 +199,13 @@ class Goals:
         choice_dict = self.interact()
         menu_check = True
         while menu_check:
-            self.view(index=True)    
+            self.view(index=True)
+
             options_dict = {"c": self.complete_goal,
                             "e": self.edit_goal}
+            
             goal_choice = input("\nEnter number to access, [a]dd a new goal or [return] to exit: ")
+
             if goal_choice == "":
                 menu_check = False
                 clear_console()
@@ -322,8 +325,6 @@ class Weekly(Goals):
         self.start_dt = (current_datetime - relativedelta(weekday=0)).replace(hour=8, minute=0)
         self.due_date = (self.start_dt + relativedelta(weekday=6)).replace(hour=20, minute=0)
 
-        
-#test
 
 class Monthly(Goals):
     def __init__ (self, goals_dict):
@@ -336,6 +337,8 @@ class Monthly(Goals):
 class Yearly(Goals):
     def __init__ (self, goals_dict):
         super().__init__(goals_dict)
+
+        self.period = "Yearly"
 
 
 

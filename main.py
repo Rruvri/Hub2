@@ -127,11 +127,11 @@ def main():
         elif menu_choice == 'gca':
             saves.master_goals.goals_archive["Daily"] = []
 
-        
-        
         elif menu_choice == 'gi':
             sysfuncs.clear_console()
             saves.master_goals.interact_choice()
+        
+
         
         elif menu_choice == 'w':
             pass #gui.window.mainloop()
