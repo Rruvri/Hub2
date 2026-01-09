@@ -90,6 +90,8 @@ def main():
             #continue
             #THIS NEEDS A FIX
 
+       
+
 
         elif menu_choice == 'c':
             create_collection(saves.master_item_collections) #update this
