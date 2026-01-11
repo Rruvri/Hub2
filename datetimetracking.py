@@ -85,13 +85,8 @@ def date_comp(current_dt, comp_dt):
 		return "Tomorrow"
 	elif comp_dt.date() == current_dt.date():
 		return "Today"
-	
-	
-	#this one is janky 'anything more than a month' - you would need to do this for previous dates as well xx
-	# -> you could just do this with normal time differences???!!! as in the year countdown
 	elif comp_dt.date() > (current_dt + relativedelta(months=1)).date(): 
 		return f'{str(relativedelta(comp_dt.date(), current_dt.date()).months)} months, {str(relativedelta(comp_dt.date(), current_dt.date()).days)} days from now'
-	
 	elif comp_dt.date() > current_dt.date(): 
 		return f'{str(relativedelta(comp_dt.date(), current_dt.date()).days)} days from now'
 	

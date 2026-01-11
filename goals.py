@@ -169,6 +169,11 @@ class Goals:
                 print(f'\n== {self.period} ==\nDue: {due_comp} | {time_format(self.due_date)}\n')
             else:
                 print(f'\n== {self.period} ==\nDue: {due_comp}\n')
+
+        #maybe move this to goals class
+
+
+        index_no = 1
         
     def view(self, index=False):
         self.generate_view_header()
@@ -461,18 +466,6 @@ class Monthly(Goals):
         self.start_dt = current_datetime.replace(day=1, hour=8, minute=30, second=0)
         self.due_date = (self.start_dt + relativedelta(months=1, days=-1)).replace(hour=20, minute=30) 
 
-        #self.monthly_activities_checklist = {}
-
-        '''
-        here's where the calendar tracking should sit, realistically you should 
-        be able to slot important upcoming dates into the constructor
-        and then add as month goes on
-        
-        '''
-
-    def construct_goals_dict(self, transferred=None):
-        pass
-
 class Yearly(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
         super().__init__(goals_dict, transferred)
@@ -481,10 +474,6 @@ class Yearly(Goals):
         self.start_dt = current_datetime.replace(day=1, month=1, hour=8, minute=30)
         self.due_date = self.start_dt.replace(day=31, month=12, hour=12, minute=0)
 
-        #self.yearly_activities_checklist = {}
-    
-    def construct_goals_dict(self, transferred=None):
-        pass
 
 
 
