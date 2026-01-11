@@ -26,6 +26,8 @@ def main():
         #get_memo_from_readme()
         #time.sleep(2)
         
+
+        #move the below into master goals as a fn
         if saves.master_goals.active_goals["Daily"]:
             if current_datetime.date() > saves.master_goals.active_goals["Daily"].start_dt.date(): 
                 saves.master_goals.create_goals_collection(time_period="Daily")

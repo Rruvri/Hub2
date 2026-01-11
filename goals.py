@@ -8,7 +8,9 @@ time_space_dict = {"d": "Daily",
                    "y": "Yearly"}
 
 def time_checker_script_for_auto_updates(): # placeholder for automatically adding goals based on realtime
-    pass 
+    pass
+    #move the runtime script for daily checks into here!
+        #you might have to update the mastergoals save??
 
 class MasterGoals:
     def __init__(self):
@@ -72,18 +74,15 @@ class MasterGoals:
         if not time_period:
             time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
         
-        #should proabbly make these a subclass method, as I doubt Daily structure really works for all of them 
-
-
         transferred = None
-        #update trasnferred
+        
         if self.active_goals[time_period]:
             print("You have some pre-existing goals, let's sort those first!\n")
             time.sleep(1)
             print(f'== Archiving previous {time_period} goals ==')
             transferred = self.active_goals[time_period].archive_interact()
             
-            #below is append to archive, not sure if this will work - it does
+            
             self.active_goals[time_period].archived = True
             self.goals_archive[time_period].append(self.active_goals[time_period])
             clear_console()
@@ -94,51 +93,6 @@ class MasterGoals:
                                     'Yearly': Yearly}
         self.active_goals[time_period] = time_period_to_new_goals[time_period](transferred=transferred)
 
-        
-        '''
-        print("-> Set today's goals")
-        main_goal = None
-        sec_goal = None
-        if transferred and "Main task" in transferred.keys():
-            print(f"Transferred main task: {transferred["Main task"]}")
-        else:
-            main_goal = input('Enter primary task: ')
-
-        if transferred and "Secondary task" in transferred.keys():
-            print(f"Transferred secondary task: {transferred["Secondary task"]}")
-        else:
-            sec_goal = input('Enter secondary task, to be completed alongside main: ')
-        
-        set_goals = {'Main task': main_goal,
-                    'Secondary task': sec_goal}
-        if transferred:
-            set_goals.update(transferred)
-        extra_goals_check = True
-        eg_index = 1
-        eg_dict = {}
-        while extra_goals_check:
-            extra_goal = input('Enter any additional tasks, or just [return] to finish: ')
-            if extra_goal == "":
-                extra_goals_check = False
-            else:
-                eg_dict[f'Extra goal {str(eg_index)}'] = extra_goal
-                eg_index += 1
-        
-        if eg_dict:
-            set_goals.update(eg_dict)
-        
-        
-        
-        #this could be better            
-        if time_period == 'Daily':
-            self.active_goals["Daily"] = Daily(goals_dict=set_goals)
-        elif time_period == 'Weekly':
-            self.active_goals['Weekly'] = Weekly(goals_dict=set_goals)
-        elif time_period == 'Monthly':
-            self.active_goals['Monthly'] = Monthly(goals_dict=set_goals)
-        elif time_period == 'Yearly':
-            self.active_goals['Yearly'] = Yearly(goals_dict=set_goals)
-        '''
         return 
     
 
@@ -146,14 +100,15 @@ class Goals:
     def __init__(self, goals_dict=None, start_dt=current_datetime, transferred=None):
 
         self.due_date = None
+        self.start_dt = start_dt
+        self.period = "Misc."
 
         if not goals_dict:
-            self.goals_dict = self.construct_goals_dict(transferred)
+            self.goals_dict = self.construct_goals_dict(transferred=transferred)
         else:
             self.goals_dict = goals_dict
         
-        self.start_dt = start_dt
-        self.period = "Misc."
+        
 
     
     def construct_goals_dict(self, transferred=None):
@@ -202,6 +157,7 @@ class Goals:
         clear_console()
         choice_dict = self.interact()
         menu_check = True
+        
         while menu_check:
             self.view(index=True)
 
@@ -233,6 +189,8 @@ class Goals:
             for number in complete.split(','):
                 del self.goals_dict[(choice_dict[str(number)])]
             clear_console()
+            #the above is janky, complete goal should be called per goal instead of using 'multi'
+            
             choice_dict = self.interact()
             self.view(index=True)
         transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none: ")
@@ -269,7 +227,7 @@ class Goals:
         completed = {goal: self.goals_dict[goal]}
         if not multi:
             del self.goals_dict[goal]
-            print("Well Done! :-)")
+            print("Well Done! :-)") #change this, I think multi could still be used by changing the if statement
             sleep(1)
         self.goals_dict["Completed"].update(completed)
         return
@@ -307,7 +265,7 @@ class Goals:
 
 class Daily(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
-        super().__init__(goals_dict, transferred)
+        super().__init__(goals_dict=goals_dict, transferred=transferred) #SAVE THIS REMINDER! - you didn't have kwargs before and that caused an error in inheritance (interp. as positional)
         
         self.period = "Daily"
         self.start_dt = current_datetime
@@ -325,7 +283,7 @@ class Daily(Goals):
 
     def construct_goals_dict(self, transferred=None):              
         print("-> Setting today's goals")
-
+        
         main_goal = None
         sec_goal = None
 
@@ -395,7 +353,7 @@ class Daily(Goals):
 
 class Weekly(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
-        super().__init__(goals_dict, transferred)
+        super().__init__(goals_dict=goals_dict, transferred=transferred)
 
         self.period = "Weekly"
         self.start_dt = (current_datetime - relativedelta(days=current_datetime.weekday())).replace(hour=8, minute=0)
@@ -420,13 +378,16 @@ class Weekly(Goals):
             goals_dict.update(transferred)
         
         week_title = input("Set a title for this week; this can be a specific task to have finished, or a goal to be working towards...\n...the point being, limit the scope of the week by having a pre-planned direction!\n-> ")
+        
+        #subtitle should be set in review!
+        '''
         week_subtitle = input("Set a subtitle, if you have one in mind; this can be a secondary title, or a separate thing to bare in mind accross the week...\n...if you don't have one yet that's good too, as we will reflect at the end of the week and posthumously create one!\n-> ")
         if week_subtitle =='':
             week_subtitle = None
-
+        '''
         
         goals_dict["Week Title"] = week_title
-        goals_dict["Week Subtitle"] = week_subtitle
+        #goals_dict["Week Subtitle"] = week_subtitle
 
         return goals_dict
         
@@ -437,10 +398,10 @@ class Weekly(Goals):
         
 
         if dict_obj["Week Title"]:
-            print(f"\n==> Our Hero's Quest: {self.goals_dict["Week Title"]}")
+            print(f"\n==> Our Hero's Quest: {dict_obj["Week Title"]}")
         
         if dict_obj["Week Subtitle"]:
-            print(f"...or, {self.goals_dict["Week Subtitle"]}\n")
+            print(f"...or, {dict_obj["Week Subtitle"]}\n")
         
         if dict_obj["Admin and Chores"]:
             pass
@@ -460,7 +421,7 @@ class Weekly(Goals):
 
 class Monthly(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
-        super().__init__(goals_dict, transferred)
+        super().__init__(goals_dict=goals_dict, transferred=transferred)
 
         self.period = "Monthly"
         self.start_dt = current_datetime.replace(day=1, hour=8, minute=30, second=0)
@@ -468,7 +429,7 @@ class Monthly(Goals):
 
 class Yearly(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
-        super().__init__(goals_dict, transferred)
+        super().__init__(goals_dict=goals_dict, transferred=transferred)
 
         self.period = "Yearly"
         self.start_dt = current_datetime.replace(day=1, month=1, hour=8, minute=30)
