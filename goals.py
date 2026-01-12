@@ -57,11 +57,20 @@ class MasterGoals:
                             item.view()          
                 elif target[goal]:
                     target[goal].view()
-        
+    
+    def view_goals_archive(self):
+        return self.view_goals(archive=True)
+
+    def view_active_goals(self):
+        return self.view_goals()
+
+
 
         
     
     def interact_choice(self):
+        clear_console()
+        print("==> Goals | Interact\n")
         choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
         self.active_goals[time_space_dict[choice]].live_interact()
             
@@ -105,7 +114,7 @@ class MasterGoals:
         updated = False
         for period in self.active_goals.keys():
             if self.active_goals[period]:
-                if current_t > self.active_goals[period].due_date:                    
+                if current_t.date() > self.active_goals[period].due_date.date():                    
                     self.active_goals[period] = self.create_goals_collection(time_period=period)
                     updated = True
         
@@ -126,9 +135,7 @@ class Goals:
         else:
             self.goals_dict = goals_dict
         
-    def check_if_due(self, current_d_t=current_datetime): #maybe dont need this
-        pass
-        #if current_d_t.date() > self.due_date:
+    
 
 
 
