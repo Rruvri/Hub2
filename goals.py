@@ -25,6 +25,11 @@ class MasterGoals:
                               "Monthly": [],
                               "Yearly": []}
         
+        self.period_to_subclass = {'Daily': Daily,
+                                    'Weekly': Weekly,
+                                    'Monthly': Monthly,
+                                    'Yearly': Yearly}
+        
     @menu_hold
     def view_goals(self, archive=False):
         clear_console()
@@ -93,8 +98,21 @@ class MasterGoals:
                                     'Yearly': Yearly}
         self.active_goals[time_period] = time_period_to_new_goals[time_period](transferred=transferred)
 
-        return 
-    
+        return
+
+    def time_based_goals_checks(self, current_t=current_datetime):
+        
+        updated = False
+        for period in self.active_goals.keys():
+            if self.active_goals[period]:
+                if current_t > self.active_goals[period].due_date:                    
+                    self.active_goals[period] = self.create_goals_collection(time_period=period)
+                    updated = True
+        
+        return updated
+
+
+        
 
 class Goals:
     def __init__(self, goals_dict=None, start_dt=current_datetime, transferred=None):
@@ -108,7 +126,11 @@ class Goals:
         else:
             self.goals_dict = goals_dict
         
-        
+    def check_if_due(self, current_d_t=current_datetime): #maybe dont need this
+        pass
+        #if current_d_t.date() > self.due_date:
+
+
 
     
     def construct_goals_dict(self, transferred=None):
@@ -268,6 +290,7 @@ class Daily(Goals):
         super().__init__(goals_dict=goals_dict, transferred=transferred) #SAVE THIS REMINDER! - you didn't have kwargs before and that caused an error in inheritance (interp. as positional)
         
         self.period = "Daily"
+        
         self.start_dt = current_datetime
 
         evening_due = current_datetime.replace(hour=18, minute=0)

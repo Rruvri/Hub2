@@ -16,7 +16,11 @@ saves.load_initial_save()
 def main():
     first_load = True
     while True:
-        
+         
+        if saves.master_goals.time_based_goals_checks():
+            return main()
+
+
         sysfuncs.clear_console()
         print('Welcome to RaviHub!')
         print(current_complete)
@@ -26,7 +30,7 @@ def main():
         #get_memo_from_readme()
         #time.sleep(2)
         
-
+        '''
         #move the below into master goals as a fn
         if saves.master_goals.active_goals["Daily"]:
             if current_datetime.date() > saves.master_goals.active_goals["Daily"].start_dt.date(): 
@@ -37,7 +41,22 @@ def main():
         
         if saves.master_goals.active_goals["Weekly"]:
             saves.master_goals.active_goals["Weekly"].view()
+        '''
+        
+        
 
+        
+        for goal in saves.master_goals.active_goals:
+            if saves.master_goals.active_goals[goal]:
+                saves.master_goals.active_goals[goal].view()
+        
+       
+
+
+
+        
+        #memos from here
+        
         if saves.master_memos.collections:
             #saves.master_memos.view_collections(specified='all')
             print('\n== Memos ==\n')
