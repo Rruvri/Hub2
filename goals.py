@@ -63,6 +63,11 @@ class MasterGoals:
 
     def view_active_goals(self):
         return self.view_goals()
+    
+    def view_active_goals_main(self):
+        for goal in self.active_goals:
+            if self.active_goals[goal]:
+                self.active_goals[goal].view()
 
 
 
@@ -107,7 +112,7 @@ class MasterGoals:
                                     'Yearly': Yearly}
         self.active_goals[time_period] = time_period_to_new_goals[time_period](transferred=transferred)
 
-        return
+        #return
 
     def time_based_goals_checks(self, current_t=current_datetime):
         
@@ -115,9 +120,8 @@ class MasterGoals:
         for period in self.active_goals.keys():
             if self.active_goals[period]:
                 if current_t.date() > self.active_goals[period].due_date.date():                    
-                    self.active_goals[period] = self.create_goals_collection(time_period=period)
-                    updated = True
-        
+                    self.create_goals_collection(time_period=period)
+                    updated = True                    
         return updated
 
 

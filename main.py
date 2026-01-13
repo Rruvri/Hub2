@@ -14,7 +14,7 @@ from groups import create_collection
 saves.load_initial_save()
 
 def main():
-    first_load = True
+    first_load = True #are you going to use this?
     while True:
          
         if saves.master_goals.time_based_goals_checks():
@@ -28,23 +28,17 @@ def main():
         print(f'\n{calendarobjs.month_cal()}')
         print(f'\n\n{year_dt_countdown()}')
         #get_memo_from_readme()
-        #time.sleep(2)
         
         
         
         
-
-        #view goals function
-        for goal in saves.master_goals.active_goals:
-            if saves.master_goals.active_goals[goal]:
-                saves.master_goals.active_goals[goal].view()
-        
-       
+        #created new fn in master class below, if buggy old method is fine (same code just here)
+        saves.master_goals.view_active_goals_main()
 
 
 
         
-        #memos from here
+        #memos from here - move this fn to master memos
         if saves.master_memos.collections:
             #saves.master_memos.view_collections(specified='all')
             print('\n== Memos ==\n')
