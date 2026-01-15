@@ -16,11 +16,11 @@ saves.load_initial_save()
 def main():
     first_load = True #are you going to use this?
     while True:
-         
+        
         if saves.master_goals.time_based_goals_checks():
             return main()
 
-
+        
         sysfuncs.clear_console()
         print('Welcome to RaviHub!')
         print(current_complete)
@@ -96,8 +96,14 @@ def main():
             else:
                 print("Invalid choice!")
 
-        #Below are unused fns that need working
-        '''  
+        
+        
+
+main()
+
+
+#Below are unused fns that need working
+'''  
         elif menu_choice == 'lp':
             pass
             #saves.load_prev_save()
@@ -132,6 +138,4 @@ def main():
             pass
             #goals_gui_constructor(saves.master_goals)
             
-        '''
-
-main()
+'''

@@ -7,10 +7,7 @@ time_space_dict = {"d": "Daily",
                    "m": "Monthly",
                    "y": "Yearly"}
 
-def time_checker_script_for_auto_updates(): # placeholder for automatically adding goals based on realtime
-    pass
-    #move the runtime script for daily checks into here!
-        #you might have to update the mastergoals save??
+
 
 class MasterGoals:
     def __init__(self):
@@ -29,7 +26,16 @@ class MasterGoals:
                                     'Weekly': Weekly,
                                     'Monthly': Monthly,
                                     'Yearly': Yearly}
-        
+    
+    #below is temp, can delete once all clear
+    '''
+    def add_p_2_s(self):
+        self.period_to_subclass = {'Daily': Daily,
+                                    'Weekly': Weekly,
+                                    'Monthly': Monthly,
+                                    'Yearly': Yearly}
+    '''
+
     @menu_hold
     def view_goals(self, archive=False):
         clear_console()
@@ -72,7 +78,7 @@ class MasterGoals:
 
 
         
-    
+    #could use the below as a template to cut the choice out of main fns???!!!
     def interact_choice(self):
         clear_console()
         print("==> Goals | Interact\n")
@@ -106,11 +112,15 @@ class MasterGoals:
             self.goals_archive[time_period].append(self.active_goals[time_period])
             clear_console()
         
+        #replaced the below with the new 'period to subclass' attr, see if it works
+        '''
         time_period_to_new_goals = {'Daily': Daily,
                                     'Weekly': Weekly,
                                     'Monthly': Monthly,
                                     'Yearly': Yearly}
-        self.active_goals[time_period] = time_period_to_new_goals[time_period](transferred=transferred)
+        '''
+
+        self.active_goals[time_period] = self.period_to_subclass[time_period](transferred=transferred)
 
         #return
 
