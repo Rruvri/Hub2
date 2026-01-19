@@ -44,7 +44,6 @@ def store_data():
         pickle.dump(save_dict, f)
 
 #this is dysfunctional for now
-
 def load_prev_save():
     global master_item_collections, master_memos, master_goals, previous_login, prev_save_copy
     data = prev_save_copy

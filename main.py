@@ -4,12 +4,12 @@ import sys
 import saves
 import calendarobjs
 from groups import create_collection
-#from goals import create_goals_collection, create_goals_test
+
 
 #from gui import goals_gui_constructor
 
 
-
+#I think you should add a 'monumental achievments' list beneath the year countdown. today I got a job!
 
 saves.load_initial_save()
 
