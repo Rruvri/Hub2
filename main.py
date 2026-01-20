@@ -3,7 +3,7 @@ import sysfuncs
 import sys
 import saves
 import calendarobjs
-from groups import create_collection
+from groups import create_collection #??
 
 
 #from gui import goals_gui_constructor

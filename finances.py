@@ -22,7 +22,6 @@ class MasterFinances:
         if self.bank_accounts:
             bank_str = "==> Bank accounts:\n"
             for bank in self.bank_accounts:
-                bank_str + f"\n{bank.name}: £{bank.current_funds}"
                 bank_str = bank_str + f"\n{bank}: £{self.bank_accounts[bank].current_funds}"
             return bank_str
         else:
@@ -64,11 +63,10 @@ class MasterFinances:
     
     def create_bank_account(self):
         name = input("Enter name of bank: ").title()
-        current_funds = float(input("Enter current funds in bank, or [return] to  do later"))
-        #if current_funds == '' or not type(current_funds) == float: #test this, not sure if that works
-        #    current_funds = float(0)
-        
-        self.bank_accounts[name] = BankAccount(name, current_funds)
+        current_funds = input("Enter current funds in bank, or [return] to  do later: ")
+        if current_funds == '': #test this, not sure if that works - your check for type breaks fn, check why?
+            current_funds = 0
+        self.bank_accounts[name] = BankAccount(name, float(current_funds))
 
     def auto_check_finances(self, d=date.today()):
         checked_finances = []
@@ -116,18 +114,21 @@ class BankAccount:
         self.history[date].append(spend)
         return self.current_funds
     
-    #above two could be merged with new spend and gain subclasses
+    #above two could be merged with new spend and gain subclasses... below:
+    def update_funds(self, moneyobj, date=date.today()):
+        
+        self.check_hist_log(date)
+
+        self.current_funds += moneyobj.value
+        if not moneyobj.date:
+            moneyobj.date = date #REFORMAT THIS !!!
 
     def get_current_funds(self):
         return f"Current funds in {self.name}: £{self.current_funds}"
     
-    def add_regular_outgoing(self):
-        pass
 
     def add_bank_account(self, name, current_funds=0):
         self.bank_accounts[name.title()] = BankAccount(name, current_funds)
-
-
 
 
     def create_regular_outgoing(self):
@@ -147,49 +148,72 @@ class BankAccount:
     def auto_check_bank_account(self, d):
         if d <= date.today():
             self.check_hist_log(d)
+        
+        checked_outgoings = self.auto_check_outgoings(d)
+        checked_incomings = self.auto_check_incomings(d)
+        
+        #finish this
 
+
+    def auto_check_outgoings(self, d):
         check_d = int(d.day())
-
         if self.regular_outgoings:
             if check_d in self.regular_outgoings.keys():
                 for spend in self.regular_outgoings[check_d]:
                     self.subtract_funds(spend, d)
                 return self.regular_outgoings[check_d]
         return None
-            
+    
+    def auto_check_incomings(self, d):
+        check_d = int(d.day())
+        if self.regular_incomings:
+            if check_d in self.regular_incomings.keys():
+                for spend in self.regular_incomings[check_d]:
+                    self.subtract_funds(spend, d)
+                return self.regular_incomings[check_d]
+        return None
 
-class Outgoing:
-    def __init__(self, name, cost, date, account):
-        self.name = str(name)
-        self.cost = float(cost)
-        self.date = date #datetime obj? timedelta?
-        self.account = account
 
 
-'''
-class Spend:
-    def __init__(self, name, cost, date_ref, account):
+class RegularMoney:
+    def __init__(self, name, money, date_ref, account):
         self.name = name.title()
-        self.spend = Spend(name, cost)
+        self.money = money
         self.date_ref = int(date_ref) #datetime obj? timedelta?
         self.account = account.title()
-'''
+
+class Outgoing(RegularMoney):
+    def __init__(self, name, money, date_ref, account):
+        super().__init__(name, date_ref, account)
+        self.spend = Spend(name, money)
+        
+        
+
+class Incoming(RegularMoney):
+    def __init__(self, name, money, date_ref, account):
+        super().__init__(name, date_ref, account)
+        self.gain = Gain(name, money)
+
+
+
     
 class MoneyObj:
-    def __init__(self, name, cost, date=None):
+    def __init__(self, name, value, date=None):
         self.name = str(name).title()
-        self.cost = float(cost)
+        self.cost = float(value)
         if date:
             self.date = date
 
 
 class Spend(MoneyObj):
-    def __init__(self, name, cost, date=None):
-        super().__init__(name, cost, date)
+    def __init__(self, name, value, date=None):
+        super().__init__(name, date)
+        self.value = float(value * -1)
+        
 
 class Gain(MoneyObj):
-    def __init__(self, name, cost, date=None):
-        super().__init__(name, cost, date)
+    def __init__(self, name, value, date=None):
+        super().__init__(name, value, date)
 
 
 

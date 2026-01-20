@@ -197,11 +197,12 @@ class Goals:
         return choice_dict         
         
     def live_interact(self):
-        clear_console()
-        choice_dict = self.interact()
+        
         menu_check = True
         
         while menu_check:
+            clear_console()
+            choice_dict = self.interact()
             self.view(index=True)
 
             options_dict = {"c": self.complete_goal,
