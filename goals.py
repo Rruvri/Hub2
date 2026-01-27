@@ -104,7 +104,7 @@ class MasterGoals:
         if self.active_goals[time_period]:
             print("You have some pre-existing goals, let's sort those first!\n")
             time.sleep(1)
-            print(f'== Archiving previous {time_period} goals ==')
+            print(f'==> Archiving previous {time_period} goals')
             transferred = self.active_goals[time_period].archive_interact()
             
             
@@ -134,9 +134,6 @@ class MasterGoals:
                     updated = True                    
         return updated
 
-
-        
-
 class Goals:
     def __init__(self, goals_dict=None, start_dt=current_datetime, transferred=None):
 
@@ -149,16 +146,36 @@ class Goals:
         else:
             self.goals_dict = goals_dict
         
+    '''
+    SOME FEATURES TO CONSIDER:
+    -> 'Continue' goal - transferring means incomplete and needs to be re-added, whilst 'continuing' represents extended tasks
+        -> Here is where subtasks would come in, 
+            -> also, on a real level, forces you to break down tasks into their separate components
+    ---- SO, if no progress has been made on a task the day it's set, the goal is transferred...
+            ...Whilst if progress has been made, but the task is still going, it is continued
+    You could use a 'Simple' and 'Complex' task structure; simple tasks are one liners that don't require more than their header,
+             whilst complex tasks are more akin to the goals structure you already are ''using''
+
+    '''
+
+    '''
+    FOR LONGER PERIODS:
+    -> I like the start/end week review, you should have a view that shows all entries for a week (to start with)
+        -> That way, you can posthumously add week titles
     
+    -> For the year countdown, having week and month views coupled with milestone achievments means you can see what's going on...
+         ...and what's happened... at all times!
 
-
+    I LOVE THIS SHIT!
+    
+    
+    '''
 
     
     def construct_goals_dict(self, transferred=None):
         pass #make a generalised constructor
 
-    def generate_view_header(self):
-        #NOW ACTIVE, make sure rest is updated         
+    def generate_view_header(self):        
         if hasattr(self, 'archived'):
             print(f"\n-> Archive of {date_format(self.due_date)}") #fix toggel, then come back here and add how long prev. the archive was using your date_comp
         else:
@@ -168,7 +185,7 @@ class Goals:
             else:
                 print(f'\n== {self.period} ==\nDue: {due_comp}\n')
 
-        #maybe move this to goals class
+        
 
 
         index_no = 1
@@ -182,8 +199,16 @@ class Goals:
 
 
     def view_dict(self, dict_obj, index=False):
-        pass # create a generalised fn, below is original TO DELETE (working)
+        index = 1
+
+        for obj in dict_obj:
+            pass
+
         
+    '''
+    def sort_goals(self, goals_dict):
+        sort_order = ["Main task", "Secondary task", "Transferred task", "Extra task", "Completed task"]
+    '''    
         
     def interact(self):
         choice_no = 0
@@ -277,7 +302,7 @@ class Goals:
         return
     
     def edit_goal(self, goal):
-        edit = input("Enter updated goal, or [return] to clear: ")
+        edit = input("Enter updated goal, or [return] to remove goal: ")
         
         if edit == "":
             if goal.startswith('Extra') or goal.startswith('Trans'):
@@ -285,7 +310,7 @@ class Goals:
                 return
             else:    
                 edit = None
-        self.goals_dict[goal] = edit
+        self.goals_dict.update({goal: edit}) 
         return
 
     def add_goal(self):
@@ -436,8 +461,6 @@ class Weekly(Goals):
 
         return goals_dict
         
-
-
     def view_dict(self, dict_obj, index=False):
         
         
