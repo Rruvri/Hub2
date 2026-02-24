@@ -3,6 +3,8 @@ from datetime import *
 from dateutil.relativedelta import relativedelta
 
 
+def date_short_format(datetimeobj):
+	return datetime.strftime(datetimeobj, '%d')
 def date_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%d/%m/%y')
 def time_format(datetimeobj):
@@ -20,6 +22,7 @@ def month_format(datetimeobj):
 
 
 current_datetime = datetime.now()
+current_datetime_date = date.today()
 
 current_date = date_format(current_datetime)
 current_time = time_format(current_datetime)

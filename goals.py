@@ -247,7 +247,7 @@ class Goals:
                 options_dict[option_choice](goal_choice)
             
             
-    def archive_interact(self):
+    def archive_interact(self): #clear this when ready, as it's specific to Dailys
         self.view(index=True)
         choice_dict = self.interact()
         complete = input("Enter no.s of completed tasks separated by [,], return if none: ")
@@ -419,7 +419,47 @@ class Daily(Goals):
             
             print(formatted)
        
-
+    def archive_interact(self): #Added here as, to come back and clean up, just move over the fns that have specifics in
+        self.view(index=True)
+        choice_dict = self.interact()
+        complete = input("Enter no.s of completed tasks separated by [,], return if none: ")
+        
+        if complete != "":
+            for number in complete.split(','):
+                self.complete_goal(choice_dict[str(number)], multi=True)
+            for number in complete.split(','):
+                del self.goals_dict[(choice_dict[str(number)])]
+            clear_console()
+            #the above is janky, complete goal should be called per goal instead of using 'multi'
+            
+            choice_dict = self.interact()
+            self.view(index=True)
+        transfer = input("Enter tasks to transfer to today separated by [,]; to assign goal, add [m]ain or [s]econdary after number. [return] for none: ")
+        
+        if transfer != "":
+            transfer_dict = {}
+            index = 1 
+            for item in transfer.split(','):
+                number = item
+                destination = 'Transferred task '
+                if len(item) > 1:
+                    number = item[0]
+                    if item[1] == 'm':
+                        destination = 'Main task'
+                    elif item[1] == 's':
+                        destination = 'Secondary task'
+                else:
+                    destination = destination + str(index)
+                    index += 1
+                g = self.goals_dict[choice_dict[str(number)]]
+                transfer_dict[destination] = g
+                #you need to add the 'archive' toggle back and backdate for current archive
+                
+                self.goals_dict[choice_dict[str(number)]] = '[Transferred] ' + g
+        else:
+            transfer_dict = None
+        
+        return transfer_dict
 
 class Weekly(Goals):
     def __init__ (self, goals_dict=None, transferred=None):
