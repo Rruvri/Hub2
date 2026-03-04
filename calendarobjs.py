@@ -18,22 +18,23 @@ class MasterCalendar:
         
         self.repeat_events = {}
 
-        self.active_day = Day(today)
-        self.active_month = Month(current_mm)
+        
         self.active_year = Year(current_yyyy)
 
+        self.active_day = None
+        self.active_week = None
+        self.active_month = None
         
         
     def update_actives(self):
         if self.active_day.date < today:
             pass
-    
-    
+    '''
     def activate_day(self):
         self.active_day = Day(today)
     def activate_month(self):
         self.active_month = Month(current_mm, current_yyyy)
-        
+    ''' 
 
         
     '''
@@ -45,19 +46,26 @@ class MasterCalendar:
         self.active_month = current_mm 
         self.active_date = current_dd
     '''
+    def add_event(self):
+        title = input("Enter event title: ").title()
+        date = datetimetracking.datestr_to_dt(input("Enter date of event (dd/mm/yy): "))
+        
+
         
 
 class Day:
     def __init__(self, date, weekday):
         self.date = date
-        self.weekday = weekday
+        self.weekday = int(weekday)
         
         self.events = {}
 
 class Week: #THIS ONE MIGHT HAVE TO OPERATE SEPARATELY, AS IT DISTURBS THE FLOW
     def __init__(self, start_date):
         self.start_date = start_date
-        self.end_date = datetimetracking.get_date_change(start_date, 6)
+        self.end_date = datetimetracking.get_date_change(start_date, shift_days=6)
+
+        self.events = {}
 
 class Month:
     def __init__(self, month, year):
@@ -71,16 +79,11 @@ class Month:
                     continue
                 else:
                     self.dates[date] = Day(datetimetracking.date(year,month,date), weekday)
+        
             
             
 
         
-        
-        
-        
-
-
-
 
 class Year:
     def __init__(self, year):
@@ -91,18 +94,29 @@ class Year:
         self.days = {}
 
         year_days = 1
+        week_count = 1
+        weeks_temp = []
         for month in range(1,13):
+            
             self.months[month] = Month(month, year)
             for day in self.months[month].dates:
                 self.months[month].dates[day].year_day = year_days
-                self.days[year_days] = self.months[month].dates[day].date
+                self.days[year_days] = (self.months[month].dates[day].date, self.months[month].dates[day].weekday) 
                 year_days +=1
-                
+            
+            for week in cal.monthdatescalendar(self.year, month):
+                if week in weeks_temp:
+                    continue
+                else:
+                    weeks_temp.append(week)
         
+        for week in weeks_temp:
+            self.weeks[week_count] = week
+            week_count += 1
 
             
-           
-
+        
+    
         
 class Event:
     def __init__(self, title, date, time=None, notes=None):
@@ -125,7 +139,12 @@ def cal_test():
         print(test.months[2].dates[day].weekday)
         print(test.months[2].dates[day].year_day)
         print("\n")
-    print(cal.yeardatescalendar(test.year))
+    print(cal.monthdays2calendar(test.year, 2))
+    
+
+    for week in test.weeks:
+        print(f"{week} : {test.weeks[week]}")
+    #print(cal.yeardatescalendar(test.year))
         
         
 
