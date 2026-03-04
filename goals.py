@@ -5,8 +5,12 @@ from sysfuncs import *
 
 #Below is new idea for a GOALS OBJECT - currently not implemented
 class Goal:
-    def __init__(self):
-        self.goal = input("Enter goal: ")
+    def __init__(self, goal=None):
+        
+        if not goal:
+            self.goal = input("Enter goal: ")
+        elif goal:
+            self.goal = goal
         
 
 
@@ -27,7 +31,7 @@ def get_time_space():
     t_s = time_space_dict
     choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
     return t_s[choice.lower()]
-
+    #half functional, as doesn't accomodate 'view all' with return
 
 
 
@@ -53,14 +57,6 @@ class MasterGoals:
                                     'Monthly': Monthly,
                                     'Yearly': Yearly}
     
-    #below is temp, can delete once all clear
-    '''
-    def add_p_2_s(self):
-        self.period_to_subclass = {'Daily': Daily,
-                                    'Weekly': Weekly,
-                                    'Monthly': Monthly,
-                                    'Yearly': Yearly}
-    '''
 
     @menu_hold
     def view_goals(self, archive=False):
@@ -108,7 +104,6 @@ class MasterGoals:
     def interact_choice(self):
         clear_console()
         print("==> Goals | Interact\n")
-        
         choice = get_time_space()
         self.active_goals[choice].live_interact()
             
