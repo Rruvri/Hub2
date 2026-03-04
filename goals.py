@@ -2,10 +2,36 @@ from datetimetracking import *
 from sysfuncs import *
 
 
+
+#Below is new idea for a GOALS OBJECT - currently not implemented
+class Goal:
+    def __init__(self):
+        self.goal = input("Enter goal: ")
+        
+
+
+
+
+
+
+
+
+
+
 time_space_dict = {"d": "Daily", 
                    "w": "Weekly",
                    "m": "Monthly",
                    "y": "Yearly"}
+
+def get_time_space():
+    t_s = time_space_dict
+    choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
+    return t_s[choice.lower()]
+
+
+
+
+
 
 
 
@@ -82,8 +108,9 @@ class MasterGoals:
     def interact_choice(self):
         clear_console()
         print("==> Goals | Interact\n")
-        choice = input("Specify [D]aily, [W]eekly, [Monthly] or [Y]early: ")
-        self.active_goals[time_space_dict[choice]].live_interact()
+        
+        choice = get_time_space()
+        self.active_goals[choice].live_interact()
             
     def create_goals_test(self):
         goals_dict_test={"Main task": "Test",
@@ -133,6 +160,14 @@ class MasterGoals:
                     self.create_goals_collection(time_period=period)
                     updated = True                    
         return updated
+
+
+
+
+
+
+
+
 
 class Goals:
     def __init__(self, goals_dict=None, start_dt=current_datetime, transferred=None):
