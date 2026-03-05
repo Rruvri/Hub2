@@ -5,22 +5,31 @@ from sysfuncs import *
 
 #Below is new idea for a GOALS OBJECT - currently not implemented
 class Goal:
-    def __init__(self, goal=None):
+    def __init__(self, goal=None, subgoals=None, time_period=None, start_date=current_date, history={}):
         
         if not goal:
             self.goal = input("Enter goal: ")
         elif goal:
             self.goal = goal
+
+        if not time_period:
+            self.time_period = get_time_space()
+        elif time_period:
+            self.time_period = time_period
         
+        self.subgoals = subgoals
 
+        self.start_date = start_date
 
-
-
-
-
-
-
-
+        self.history = history
+        
+        self.history[start_date] = None
+        
+class Subgoals:
+    def __init__(self, subgoals_dict={}):
+        if not subgoals_dict:
+            pass
+        
 
 time_space_dict = {"d": "Daily", 
                    "w": "Weekly",
@@ -119,8 +128,9 @@ class MasterGoals:
     def create_goals_collection(self, time_period=None):
         clear_console()
         if not time_period:
-            time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
-        
+            #time_period = time_space_dict[(input('[D]aily, [W]eekly, [M]onthly, [Y]early? ')).lower()]
+            time_period = get_time_space()
+
         transferred = None
         
         if self.active_goals[time_period]:
@@ -134,7 +144,7 @@ class MasterGoals:
             self.goals_archive[time_period].append(self.active_goals[time_period])
             clear_console()
         
-        #replaced the below with the new 'period to subclass' attr, see if it works
+        #replaced the below with the new 'period to subclass' attr, see if it works - IT DOES< DELETE THIS
         '''
         time_period_to_new_goals = {'Daily': Daily,
                                     'Weekly': Weekly,
