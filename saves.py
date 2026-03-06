@@ -6,11 +6,12 @@ from sysfuncs import *
 from goals import *
 from memos import *
 from items import *
+from calendarobjs import *
 
 master_item_collections = MasterItems()
 master_memos = MasterMemos()
 master_goals = MasterGoals()
-
+master_calendar = MasterCalendar()
 
 previous_login = None
 prev_save_copy = None

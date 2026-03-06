@@ -17,6 +17,8 @@ def date_and_time_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%d/%m/%y | %H:%M')
 def year_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%y')
+def full_year_format(datetimeobj):
+	return datetime.strftime(datetimeobj, '%Y')
 def month_format(datetimeobj):
 	return datetime.strftime(datetimeobj, '%m')
 
@@ -33,7 +35,7 @@ current_complete = f'{current_weekday}, {current_date} | {current_time}'
 
 
 def datestr_to_dt(date_string):
-	return datetime.strptime('%d/%m/%y', date_string)
+	return datetime.strptime(date_string, '%d/%m/%y')
 
 
 #datetime checks______________________________________________________________________
