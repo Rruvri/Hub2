@@ -29,6 +29,9 @@ def main():
         print(f'\n\n{year_dt_countdown()}')
         #get_memo_from_readme()
         
+        #Now working on this, slow implementation
+        saves.master_calendar.show_today()
+        
         
         
         
@@ -68,9 +71,10 @@ def main():
         
 
         print("\n==== MENU ====\n") #add rest
-        print("[C]reate collection")
+        #print("[C]reate collection")
         print("[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
         print("[M]emos (create), or +...\n-> [I]nteract\n-> [V]iew\n-> [R]eset all") #add rest
+        print("[C]alendar +...\n-> [A]dd event")
         #print("[L]oad [p]revious save")
         print("\n")
 
@@ -88,7 +92,8 @@ def main():
             'gg': saves.master_goals.create_goals_test,
             'gv': saves.master_goals.view_active_goals,
             'gva': saves.master_goals.view_goals_archive,
-            'gi': saves.master_goals.interact_choice}
+            'gi': saves.master_goals.interact_choice,
+            'ca': saves.master_calendar.add_event}
             
             if menu_choice in menu_choice_dict.keys():
                 menu_selected = False

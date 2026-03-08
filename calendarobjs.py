@@ -21,14 +21,17 @@ class MasterCalendar:
         
         self.active_year = Year(current_yyyy)
 
-        self.active_day = None
-        self.active_week = None
-        self.active_month = None
+        self.active_day = self.active_year.days_ref_rev[today]
+        self.active_week = self.active_year.days[self.active_day].week_number
+        self.active_month = self.active_year.days[self.active_day].date.month
         
         
     def update_actives(self):
-        if self.active_day.date < today:
-            pass
+        pass
+
+    def show_today(self):
+        self.active_year.days[self.active_day].show_day()
+            
     
     def add_event(self):
         title = input("Enter event title: ").title()
@@ -37,13 +40,16 @@ class MasterCalendar:
         date = datetimetracking.datestr_to_dt((input("Enter date of event (dd/mm/yy): "))).date()
         time = input("Enter time of event in format HHMM, or [return] if not required: ")
         if time != "":
-            hour = int(time[0:2])
-            if hour[0] == 0:
+            hour = (time[0:2])
+            
+            if hour[0] == '0':
                 hour = hour[1]
-            min = int(time[2:4])
-            if min[0] == 0:
+            min = (time[2:4])
+            if min[0] == '0':
                 min = min[1]
-            time = datetimetracking.time(hour, min)
+            time = datetimetracking.time(int(hour), int(min))
+            print(time)
+            
         else:
             time = None
         
@@ -51,8 +57,9 @@ class MasterCalendar:
         day_no = self.active_year.days_ref_rev[new_event.date]
         self.active_year.days[day_no].events.append(new_event)
 
-        for item in self.active_year.days[day_no].events:
-            print(f"{item.title}, {item.date}")
+        
+        
+    
         
 
         
@@ -69,6 +76,15 @@ class Day:
         self.week_number = week_number
         
         self.events = []
+
+    def show_day(self):
+        print(f"\n== {datetimetracking.date_format(self.date)} ==")
+        print("->Events: ")
+        if self.events:
+            for event in self.events:
+                print(event.title)
+        else:
+            print("Nothing yet!")
         
 class Week: #THIS ONE MIGHT HAVE TO OPERATE SEPARATELY, AS IT DISTURBS THE FLOW
     def __init__(self, start_date=None, dates_list=None,):
@@ -151,10 +167,11 @@ class Year:
                 self.days[year_days] = Day(datetimetracking.date(self.year, month, day), d["Weekday"], d["Year Day"], d["Week Number"]) 
                 year_days +=1
             
+            #this is a messy fix to referencing days, just reversing the dict - IS THERE A BETTER WAY
             for day_no in self.days:
                 date = self.days[day_no].date
                 self.days_ref_rev[date] = day_no
-            print(self.days_ref_rev)
+            
 
 
         #This populates main weeks list with Week objects
@@ -199,6 +216,6 @@ def cal_test():
     #print(cal.yeardatescalendar(test.year))
     test.add_event()
         
-cal_test()
+#cal_test()
 
 

@@ -17,7 +17,7 @@ previous_login = None
 prev_save_copy = None
  
 def load_initial_save(): #could you exchange globals for () input?
-    global master_item_collections, master_memos, master_goals, previous_login, prev_save_copy
+    global master_item_collections, master_memos, master_goals, master_calendar, previous_login, prev_save_copy
     wd = os.getcwd()
     wd_files = os.listdir(wd)
     if 'save_data.pkl' in wd_files:
@@ -27,6 +27,7 @@ def load_initial_save(): #could you exchange globals for () input?
             master_item_collections = data['item collections']
             master_memos = data['memos']
             master_goals = data['goals']
+            master_calendar = MasterCalendar()
             prev_save_copy = data['previous save copy'] #I'm pretty sure this doesn't do what you want it to, but come back later
 
 
@@ -37,6 +38,7 @@ def store_data():
         current_data_dict = {'item collections': master_item_collections,
                         'memos': master_memos,
                         'goals': master_goals,
+                        #'calendar': master_calendar,
                         'previous login': current_datetime,
                         } 
         previous_snapshot = current_data_dict.copy()
