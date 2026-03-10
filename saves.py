@@ -27,7 +27,7 @@ def load_initial_save(): #could you exchange globals for () input?
             master_item_collections = data['item collections']
             master_memos = data['memos']
             master_goals = data['goals']
-            master_calendar = MasterCalendar()
+            master_calendar = data['calendar']
             prev_save_copy = data['previous save copy'] #I'm pretty sure this doesn't do what you want it to, but come back later
 
 
@@ -38,7 +38,7 @@ def store_data():
         current_data_dict = {'item collections': master_item_collections,
                         'memos': master_memos,
                         'goals': master_goals,
-                        #'calendar': master_calendar,
+                        'calendar': master_calendar,
                         'previous login': current_datetime,
                         } 
         previous_snapshot = current_data_dict.copy()
@@ -56,6 +56,8 @@ def load_prev_save():
     master_memos = data['memos']
     master_goals = data['goals']
     prev_save_copy = data['previous save copy']
+
+    
 
     
 def save_exit():

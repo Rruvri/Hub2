@@ -27,7 +27,8 @@ class MasterCalendar:
         
         
     def update_actives(self):
-        pass
+        if self.active_year.days[self.active_day].date != today:
+            self.active_day = self.active_year.days_ref_rev[today]
 
     def show_today(self):
         self.active_year.days[self.active_day].show_day()
@@ -37,7 +38,15 @@ class MasterCalendar:
         title = input("Enter event title: ").title()
         cat = input("Enter event category: ").title()
 
-        date = datetimetracking.datestr_to_dt((input("Enter date of event (dd/mm/yy): "))).date()
+        date = input("Enter date of event (dd/mm/yy)\n-> If today, use [t], and [+/-][no. of days] for easy movement: ")
+        if date.startswith('t'):
+            if len(date) == 1:
+                date = today
+            elif date[1] == ('+' or '-'):
+                shift = int(date[1:])
+                date = datetimetracking.get_date_change(today, shift) # check this RE str inputs
+        else:
+            date = datetimetracking.datestr_to_dt(date)
         time = input("Enter time of event in format HHMM, or [return] if not required: ")
         if time != "":
             hour = (time[0:2])
@@ -55,7 +64,7 @@ class MasterCalendar:
         
         new_event = Event(title, cat, date, time)
         day_no = self.active_year.days_ref_rev[new_event.date]
-        self.active_year.days[day_no].events.append(new_event)
+        self.active_year.days[day_no].add_event(new_event)
 
         
         
@@ -79,12 +88,21 @@ class Day:
 
     def show_day(self):
         print(f"\n== {datetimetracking.date_format(self.date)} ==")
-        print("->Events: ")
+        print("Events: ")
         if self.events:
             for event in self.events:
-                print(event.title)
+                event_str = event.title
+                
+                if event.time:
+                    event_str += f" @ {event.time}"
+                print(event_str)
         else:
             print("Nothing yet!")
+    
+    def add_event(self, event):
+        self.events.append(event)
+        pass #this will be adding event to week, but not necessary?
+        
         
 class Week: #THIS ONE MIGHT HAVE TO OPERATE SEPARATELY, AS IT DISTURBS THE FLOW
     def __init__(self, start_date=None, dates_list=None,):
@@ -99,6 +117,8 @@ class Week: #THIS ONE MIGHT HAVE TO OPERATE SEPARATELY, AS IT DISTURBS THE FLOW
                 weekday_num +=1
 
         self.events = {}
+    
+    
 
 class Month:
     def __init__(self, month, year):

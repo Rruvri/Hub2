@@ -16,17 +16,19 @@ saves.load_initial_save()
 def main():
     first_load = True #are you going to use this?
     while True:
-        
+        saves.master_calendar.update_actives()
         if saves.master_goals.time_based_goals_checks():
             return main()
 
         
         sysfuncs.clear_console()
         print('Welcome to RaviHub!')
+        print(f'\n{calendarobjs.month_cal()}')
+        print(f'{year_dt_countdown()}\n\n')
         print(current_complete)
         print(f'{time_based_greetings()}\n')
-        print(f'\n{calendarobjs.month_cal()}')
-        print(f'\n\n{year_dt_countdown()}')
+        
+        
         #get_memo_from_readme()
         
         #Now working on this, slow implementation
