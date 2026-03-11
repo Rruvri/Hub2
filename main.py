@@ -4,6 +4,7 @@ import sys
 import saves
 import calendarobjs
 from groups import create_collection #??
+import terminal_frames
 
 
 #from gui import goals_gui_constructor
@@ -33,13 +34,17 @@ def main():
         
         #Now working on this, slow implementation
         saves.master_calendar.show_today()
+
         
         
         
         
         #created new fn in master class below, if buggy old method is fine (same code just here)
         saves.master_goals.view_active_goals_main()
-
+        
+        new_frame = terminal_frames.construct_frame(saves.master_goals.active_goals["Daily"].data_for_frame())
+        terminal_frames.add_frame_adj(new_frame, terminal_frames.test_split(terminal_frames.TEST_TEXT))
+        terminal_frames.print_frame(new_frame)
 
 
         

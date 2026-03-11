@@ -228,17 +228,34 @@ class Goals:
         
 
 
-        index_no = 1
         
+        
+    
     def view(self, index=False):
         self.generate_view_header()
         if index:
             self.view_dict(self.goals_dict, index=True)
         elif not index:
             self.view_dict(self.goals_dict)
+    
+    def data_for_frame(self):
+        string = ""
+        if hasattr(self, 'archived'):
+            string +=(f"#-> Archive of {date_format(self.due_date)}") #fix toggel, then come back here and add how long prev. the archive was using your date_comp
+        else:
+            due_comp = date_comp(current_datetime, self.due_date)
+            if due_comp == "Today" or due_comp == "Tomorrow":
+                string += (f'#== {self.period} ==#Due: {due_comp} ] {time_format(self.due_date)}#')
+            else:
+                string += (f'#== {self.period} ==#Due: {due_comp}#')
+        string += self.view_dict(self.goals_dict, frame=True)
+        
+        return string
+        
 
 
-    def view_dict(self, dict_obj, index=False):
+
+    def view_dict(self, dict_obj, index=False, frame=False):
         index = 1
 
         for obj in dict_obj:
@@ -427,10 +444,10 @@ class Daily(Goals):
 
         return set_goals
     
-    def view_dict(self, dict_obj, index=False):
+    def view_dict(self, dict_obj, index=False, frame=False):
         
         index_no = 1
-        
+        frame_str = ""
         for k in dict_obj:
             if k == 'Completed': #needs update for ordering on view
                 print(f'\n{k}:')
@@ -455,9 +472,14 @@ class Daily(Goals):
                index_no += 1
                formatted = indexer + formatted
             if k == 'Main task' or k == 'Secondary task':
-                formatted = formatted + '\n'
-            
-            print(formatted)
+                if not frame:
+                    formatted = formatted + '\n'
+            if frame:
+                frame_str += formatted + '#'
+            else:
+                print(formatted)
+        if frame:
+            return frame_str
        
     def archive_interact(self): #Added here as, to come back and clean up, just move over the fns that have specifics in
         self.view(index=True)
