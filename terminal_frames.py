@@ -14,7 +14,7 @@ def construct_frame(section):
             formatted_line = header_centre + line + header_centre 
 
         else:
-            
+            #needs a fix for line breaks
             formatted_line = line
             if len(line) > 38:
                 formatted_line = line[:39]

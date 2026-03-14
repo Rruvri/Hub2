@@ -42,10 +42,13 @@ def main():
         #created new fn in master class below, if buggy old method is fine (same code just here)
         saves.master_goals.view_active_goals_main()
         
+
+        #This is a terminal frames test, working (with some fixes needed for looks and text breaks)
+        ''' 
         new_frame = terminal_frames.construct_frame(saves.master_goals.active_goals["Daily"].data_for_frame())
         terminal_frames.add_frame_adj(new_frame, terminal_frames.test_split(terminal_frames.TEST_TEXT))
         terminal_frames.print_frame(new_frame)
-
+        '''
 
         
         #memos from here - move this fn to master memos
@@ -54,31 +57,13 @@ def main():
             print('\n== Memos ==\n')
             for col in saves.master_memos.collections:
                 print(f'{col} [{len(saves.master_memos.collections[col].memos_list)} open memos]')
-
-        #maybe discard, or move to class
-        '''
-        print('\n== Memos ==')
-        if master_memos.collections:
-            if len(master_memos.collections.keys()) == 1:
-                targetlist = list(master_memos.collections.keys())
-                target = targetlist[0]
-                master_memos.view_collections(target)
-            else:
-                index = 1
-                memos_list = list(master_memos.collections.keys())
-                for memo_title in memos_list:
-                    print(f'[{index}] {memo_title}')
-                    index +=1
-        '''
                     
-        
-        
         
         
         
 
         print("\n==== MENU ====\n") #add rest
-        #print("[C]reate collection")
+        #print("[C]reate collection") This was intended as a general item col. for things like food, stationary whatever. Currently not used
         print("[G]oals (create), or +...\n-> [I]nteract\n-> [V]iew (+[A]rchive)") #add rest
         print("[M]emos (create), or +...\n-> [I]nteract\n-> [V]iew\n-> [R]eset all") #add rest
         print("[C]alendar +...\n-> [A]dd event")

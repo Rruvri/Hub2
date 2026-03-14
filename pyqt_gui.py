@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (QApplication, QLabel,
                                   QDialog, QHBoxLayout,
                                     QDialogButtonBox)
 
+
 '''
 app = QApplication([])
 window = QWidget()

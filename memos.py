@@ -12,25 +12,6 @@ class MasterMemos:
     
     @menu_hold
     def view_collections(self):
-        
-
-        '''
-        if specified == None:
-            #specified = input('Enter memos collection name, or [return] to view all: ')
-            if not self.collections:
-                print('No memos yet!')
-                return
-            index = 0
-            for memcol in self.collections:
-                index +=1
-                print(f'[{index}] {memcol}')
-            choice = input('Enter collection number to access: ')
-            choice_list = self.collections.keys()
-            clear_console()
-            self.collections[choice_list[int(choice)-1]].interact()
-        '''
-        #else:
-            #if specified == 'all':
         print('\n== Memos ==')
         if self.collections:
             for col in self.collections:
@@ -38,20 +19,7 @@ class MasterMemos:
             print('\n')
                     #add hold fn
 
-            #if specified == '':
-             #   specified = 'all'
-            #if specified != '' and specified != 'all':
-            #else:
-             #   specified = specified.title()
-              #  return self.collections[specified].view_memos_col()
-        '''
-        #elif specified == 'all':
-        print('\n== Memos ==')
-        if self.collections:
-            for col in self.collections.keys():
-                self.collections[col].view_memos_col()
-                #add hold fn
-        '''
+          
     '''
     def view_all(self):
         for col in self.collections:
