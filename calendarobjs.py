@@ -47,22 +47,32 @@ class MasterCalendar:
                 date = datetimetracking.get_date_change(today, shift) # check this RE str inputs
         else:
             date = datetimetracking.datestr_to_dt(date)
-        time = input("Enter time of event in format HHMM, or [return] if not required: ")
-        if time != "":
-            hour = (time[0:2])
-            
-            if hour[0] == '0':
-                hour = hour[1]
-            min = (time[2:4])
-            if min[0] == '0':
-                min = min[1]
-            time = datetimetracking.time(int(hour), int(min))
-            print(time)
-            
-        else:
-            time = None
         
-        new_event = Event(title, cat, date, time)
+        def time_input(end_time=False):
+            time_str = "Enter start time of event in format HHMM, or [return] if not required: "
+            if end_time:
+                time_str.replace("start", "end")
+
+            time = input(time_str)
+            if time != "":
+                hour = (time[0:2])
+                
+                if hour[0] == '0':
+                    hour = hour[1]
+                min = (time[2:4])
+                if min[0] == '0':
+                    min = min[1]
+                time = datetimetracking.time(int(hour), int(min))
+                print(time)
+                
+            else:
+                time = None
+            return time
+        
+        start_time = time_input()
+        end_time = time_input(end_time=True)
+        
+        new_event = Event(title, cat, date, start_time, end_time)
         day_no = self.active_year.days_ref_rev[new_event.date]
         self.active_year.days[day_no].add_event(new_event)
 
@@ -86,16 +96,15 @@ class Day:
         
         self.events = []
 
-    def show_day(self):
-        print(f"\n== {datetimetracking.date_format(self.date)} ==")
-        print("Events: ")
+    def show_day(self, header=False):
+        if header:
+            print(f"\n== {datetimetracking.date_format(self.date)} ==")
+
+        print("== Events ==\n ")
         if self.events:
             for event in self.events:
-                event_str = event.title
+                print(event.get_event())
                 
-                if event.time:
-                    event_str += f" @ {event.time}"
-                print(event_str)
         else:
             print("Nothing yet!")
     
@@ -117,6 +126,9 @@ class Week: #THIS ONE MIGHT HAVE TO OPERATE SEPARATELY, AS IT DISTURBS THE FLOW
                 weekday_num +=1
 
         self.events = {}
+    
+    def display_week_events(self):
+        pass
     
     
 
@@ -205,16 +217,26 @@ class Year:
     
         
 class Event:
-    def __init__(self, title, category, date, time=None, notes=None):
+    def __init__(self, title, category, date, start_time=None, end_time=None, notes=None):
         self.title = title
         self.category = category
         
         self.date = date
-        self.time = time
+        self.start_time = start_time
+        self.end_time = end_time
         self.notes = notes
     
     def event_repeat(self, frequency):
         self.repeat = frequency
+    
+    def get_event(self):
+        ev_string = f"{self.title}"
+        if self.start_time:
+            ev_string += f" @ {self.start_time}"
+        if self.end_time:
+            ev_string += f" - {self.end_time}"
+        return ev_string
+
 
 
 
