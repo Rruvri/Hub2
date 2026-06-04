@@ -30,7 +30,7 @@ class Subgoals:
         if not subgoals_dict:
             pass
         
-
+#ENUMS?!?!
 time_space_dict = {"d": "Daily", 
                    "w": "Weekly",
                    "m": "Monthly",
